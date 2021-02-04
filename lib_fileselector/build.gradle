@@ -52,7 +52,7 @@ android {
     }
 
     // 资源文件前缀
-    resourcePrefix 'res_fs_'
+    resourcePrefix "res_fs_"
 }
 
 repositories {
