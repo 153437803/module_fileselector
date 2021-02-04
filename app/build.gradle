@@ -97,12 +97,15 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // 模块依赖
-    implementation(name: 'lib_fileselector-release', ext: 'aar')
-    // implementation project(':lib_fileselector')
+     implementation(name: 'lib_fileselector-release', ext: 'aar')
+//    implementation project(':lib_fileselector')
 
     // 三方依赖
     implementation rootProject.ext.dependencies.support_activity
     implementation rootProject.ext.dependencies.support_fragment
     implementation rootProject.ext.dependencies.support_annotation
     implementation rootProject.ext.dependencies.support_appcompat
+
+    implementation rootProject.ext.dependencies.glide
+    implementation rootProject.ext.dependencies.support_recyclerview
 }
