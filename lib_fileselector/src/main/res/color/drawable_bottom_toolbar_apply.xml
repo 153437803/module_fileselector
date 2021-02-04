@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android" tools:ignore="ResourceName">
+    <item android:color="@color/fs_color_4d0077d9"
+          android:state_enabled="false"/>
+    <item android:color="@color/fs_color_0077d9"/>
+</selector>

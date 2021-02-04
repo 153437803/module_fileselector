@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
+
+    <color name="fs_color_cc000000" tools:ignore="ResourceName">#CC000000</color>
+    <color name="fs_color_61ffffff">#61FFFFFF</color>
+
+    <color name="fs_color_333333">#333333</color>
+    <color name="fs_color_ffffff">#ffffff</color>
+    <color name="fs_color_232e32">#232e32</color>
+    <color name="fs_color_cccccc">#cccccc</color>
+
+    <color name="fs_color_1e8ae8">#1E8AE8</color>
+    <color name="fs_color_176eb9">#176EB9</color>
+
+    <color name="fs_color_de000000">#DE000000</color>
+    <color name="fs_color_999999">#999999</color>
+    <color name="fs_color_eaeef4">#EAEEF4</color>
+    <color name="fs_color_4d000000">#4D000000</color>
+
+    <color name="fs_color_e4eef4">#EAEEF4</color>
+    <color name="fs_color_424242">#424242</color>
+
+    <color name="fs_color_0077d9">#0077D9</color>
+    <color name="fs_color_4d0077d9">#4D0077D9</color>
+    <color name="fs_color_808080">#808080</color>
+
+</resources>

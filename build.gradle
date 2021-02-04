@@ -1,0 +1,77 @@
+buildscript {
+
+    // 编译: 2020-01-03
+    ext.support_gradle_version = '4.1.2'
+
+    // https://developer.android.google.cn/jetpack/androidx/versions
+    // 核心: 2020-01-03
+    ext.support_activity_version = '1.1.0'
+    ext.support_fragment_version = '1.2.5'
+    ext.support_annotation_version = "1.1.0"
+    ext.support_appcompat_version = "1.1.0"
+
+    // https://developer.android.google.cn/jetpack/androidx/versions
+    // 功能: 2020-01-03
+    ext.support_recycler_version = '1.2.0-alpha04'
+
+    // 三方: 2020-01-03
+    ext.support_glide_version = '4.11.0'
+
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:${support_gradle_version}"
+    }
+}
+
+allprojects {
+
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+    }
+}
+
+ext {
+
+    // 常量
+    plugin = [
+            com_android_application: 'com.android.application',
+            com_android_library    : 'com.android.library',
+            andresguard            : 'AndResGuard',
+            java                   : 'java',
+            armeabi                : 'armeabi',
+            x86                    : 'x86',
+            fastclick              : 'android-aspectjx',
+    ]
+
+    // 版本
+    android = [
+            applicationId    : "com.kalu.fileselector",
+            compileSdkVersion: 29,
+            buildToolsVersion: "29.0.2",
+            minSdkVersion    : 23,
+            targetSdkVersion : 29, // 28之后强制使用https, 否则报错, 或者networkSecurityConfig
+            versionCode      : 1,
+            versionName      : "1.0.0"
+    ]
+
+    // 依赖
+    dependencies = [
+
+            // 核心: 2020-01-03
+            "support_activity"             : "androidx.activity:activity:$support_activity_version",
+            "support_fragment"             : "androidx.fragment:fragment:$support_fragment_version",
+            "support_annotation"           : "androidx.annotation:annotation:$support_annotation_version",
+            "support_appcompat"            : "androidx.appcompat:appcompat:$support_appcompat_version",
+
+            // 功能: 2020-01-03
+            "support_recyclerview"         : "androidx.recyclerview:recyclerview:$support_recycler_version",
+
+            // 三方: 2020-01-03
+            "glide"                        : "com.github.bumptech.glide:glide:$support_glide_version",
+    ]
+}

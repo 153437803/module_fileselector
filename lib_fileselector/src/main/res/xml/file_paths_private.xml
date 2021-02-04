@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--"."表示所有路径-->
+    <external-path
+        name="external_path"
+        path="." />
+
+    <external-files-path
+        name="external_files_path"
+        path="." />
+
+    <external-cache-path
+        name="external_cache_path"
+        path="." />
+
+    <cache-path
+        name="cache_path"
+        path="." />
+
+    <files-path
+        name="files_path"
+        path="." />
+
+    <!--    <external-path-->
+    <!--        name="download"-->
+    <!--        path="Download/"/>-->
+
+</paths>

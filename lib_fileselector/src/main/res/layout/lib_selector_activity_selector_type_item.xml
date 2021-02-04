@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/media_thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <lib.kalu.fileselector.widget.CheckView
+        android:id="@+id/check_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right" />
+
+    <TextView
+        android:id="@+id/gif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="#232E32"
+        android:gravity="center"
+        android:paddingLeft="4dp"
+        android:paddingTop="1dp"
+        android:paddingRight="4dp"
+        android:paddingBottom="1dp"
+        android:text="@string/lib_selector_gif"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/video_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="#232E32"
+        android:gravity="center"
+        android:padding="4dp"
+        android:paddingLeft="4dp"
+        android:paddingTop="1dp"
+        android:paddingRight="4dp"
+        android:paddingBottom="1dp"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:visibility="gone" />
+</merge>
