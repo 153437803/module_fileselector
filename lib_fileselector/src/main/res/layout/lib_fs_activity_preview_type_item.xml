@@ -19,7 +19,7 @@
         android:paddingTop="8dp"
         android:paddingRight="14dp"
         android:paddingBottom="8dp"
-        android:text="@string/lib_selector_play"
+        android:text="@string/lib_fs_string_play"
         android:textColor="@color/fs_color_ffffff"
         android:textSize="14sp" />
 

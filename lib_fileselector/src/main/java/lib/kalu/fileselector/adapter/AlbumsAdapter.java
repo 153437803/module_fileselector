@@ -42,7 +42,7 @@ public class AlbumsAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.lib_selector_dialog_item, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.lib_fs_dialog_item, parent, false);
     }
 
     @Override

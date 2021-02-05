@@ -109,7 +109,7 @@ public final class PhotoMetadataUtils {
 
     public static FilterFailCause isAcceptable(Context context, MediaModel mediaModel) {
         if (!isSelectableType(context, mediaModel)) {
-            return new FilterFailCause(context.getString(R.string.error_file_type));
+            return new FilterFailCause(context.getString(R.string.lib_fs_string_error_file_type));
         }
 
         if (SelectorModel.getInstance().filters != null) {

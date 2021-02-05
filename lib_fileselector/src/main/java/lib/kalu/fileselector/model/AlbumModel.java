@@ -66,9 +66,9 @@ public class AlbumModel implements Serializable {
 
     public String getAlbumName(Context context) {
         if (isAll()) {
-            return context.getString(R.string.lib_selector_all);
+            return context.getString(R.string.lib_fs_string_all);
         } else if (TextUtils.isEmpty(mAlbumName)) {
-            return context.getString(R.string.lib_selector_unnamed);
+            return context.getString(R.string.lib_fs_string_unnamed);
         } else {
             return mAlbumName;
         }

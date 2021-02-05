@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
 
     <ImageView
         android:id="@+id/media_thumbnail"
@@ -25,7 +27,7 @@
         android:paddingTop="1dp"
         android:paddingRight="4dp"
         android:paddingBottom="1dp"
-        android:text="@string/lib_selector_gif"
+        android:text="@string/lib_fs_string_gif"
         android:textColor="#ffffff"
         android:textSize="12sp"
         android:visibility="gone" />
@@ -35,16 +37,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
-        android:layout_marginRight="1dp"
-        android:layout_marginBottom="1dp"
-        android:background="#232E32"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/fs_color_232e32"
         android:gravity="center"
-        android:padding="4dp"
-        android:paddingLeft="4dp"
-        android:paddingTop="1dp"
-        android:paddingRight="4dp"
-        android:paddingBottom="1dp"
-        android:textColor="#ffffff"
-        android:textSize="12sp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textColor="@color/fs_color_ffffff"
+        android:textSize="10sp"
         android:visibility="gone" />
 </merge>

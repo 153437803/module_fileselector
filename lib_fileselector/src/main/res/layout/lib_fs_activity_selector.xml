@@ -3,18 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="ResourceName">
 
     <TextView
         android:id="@+id/selector_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:layout_centerHorizontal="true"
         android:clickable="true"
+        android:background="@drawable/lib_fs_ic_background_title"
+        android:drawableRight="@drawable/lib_fs_ic_rectangle"
+        android:drawablePadding="6dp"
         android:gravity="center"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:text="全部"
+        android:text="@string/lib_fs_string_all"
         android:textColor="@color/fs_color_333333"
         android:textSize="16sp" />
 
@@ -24,6 +28,12 @@
         android:onClick="onBack"
         android:padding="19dp"
         android:src="@drawable/ic_selector_back" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignBottom="@id/selector_title"
+        android:background="@color/fs_color_cccccc" />
 
     <FrameLayout
         android:id="@+id/bottom_toolbar"
@@ -35,13 +45,13 @@
         tools:targetApi="lollipop">
 
         <TextView
-            android:id="@+id/button_preview"
+            android:id="@+id/lib_fs_string_preview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:foreground="?selectableItemBackground"
             android:padding="16dp"
-            android:text="@string/button_preview"
+            android:text="@string/lib_fs_string_preview"
             android:textColor="@color/fs_color_333333"
             android:textSize="16sp" />
 
@@ -54,7 +64,7 @@
             android:orientation="horizontal"
             android:padding="16dp"
             android:visibility="visible"
-            tools:showIn="@layout/lib_selector_activity_selector">
+            tools:showIn="@layout/lib_fs_activity_selector">
 
             <lib.kalu.fileselector.widget.CheckRadioView
                 android:id="@+id/original"
@@ -70,14 +80,14 @@
                 android:enabled="true"
                 android:paddingStart="4dp"
                 android:paddingLeft="4dp"
-                android:text="@string/button_original"
+                android:text="@string/lib_fs_string_button_original"
                 android:textColor="@color/fs_color_333333"
                 android:textSize="14sp" />
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/button_apply"
+            android:id="@+id/lib_fs_string_apply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -109,7 +119,7 @@
             android:layout_gravity="center"
             android:drawablePadding="8dp"
             android:gravity="center"
-            android:text="@string/empty_text"
+            android:text="@string/lib_fs_string_empty"
             android:textColor="@color/fs_color_333333"
             android:textSize="16sp" />
 

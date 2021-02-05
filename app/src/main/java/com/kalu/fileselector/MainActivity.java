@@ -30,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Selector.with(MainActivity.this)
-                        .setSelectorType(SelectorMimeType.ofImageNoGif(), false)
+                        .setSelectorType(SelectorMimeType.ofAll(), false)
                         .setImageOriginalEnable(true)
-                        .setCaptureEnable(false)
+                        .setCaptureEnable(true)
                         .setCaptureFileProvider(
                                 new CaptureModel(false, getPackageName() + ".fileprovider", "test"))
                         .setSelectMax(1)

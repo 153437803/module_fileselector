@@ -4,10 +4,11 @@
     <color name="fs_color_cc000000">#CC000000</color>
     <color name="fs_color_61ffffff">#61FFFFFF</color>
 
+    <color name="fs_color_232e32">#232e32</color>
     <color name="fs_color_333333">#333333</color>
     <color name="fs_color_ffffff">#ffffff</color>
-    <color name="fs_color_232e32">#232e32</color>
     <color name="fs_color_cccccc">#cccccc</color>
+    <color name="fs_color_ebebeb">#ebebeb</color>
 
     <color name="fs_color_1e8ae8">#1E8AE8</color>
     <color name="fs_color_176eb9">#176EB9</color>

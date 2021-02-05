@@ -24,7 +24,7 @@ public class FilterTypeImage extends Filter {
 //
 //        Point size = PhotoMetadataUtils.getBitmapBound(context.getContentResolver(), mediaModel.getMediaUri());
 //        if (size.x < mMinWidth || size.y < mMinHeight || mediaModel.mMediaSize > mMaxSize) {
-//            return new FilterFailCause(FilterFailCause.DIALOG, context.getString(R.string.error_gif, mMinWidth,
+//            return new FilterFailCause(FilterFailCause.DIALOG, context.getString(R.string.lib_fs_string_error_gif, mMinWidth,
 //                    String.valueOf(PhotoMetadataUtils.getSizeInMB(mMaxSize))));
 //        }
         return null;

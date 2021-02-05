@@ -36,7 +36,7 @@ public class MediaGrid extends SquareFrameLayout implements View.OnClickListener
     }
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.lib_selector_activity_selector_type_item, this, true);
+        LayoutInflater.from(context).inflate(R.layout.lib_fs_activity_selector_type_item, this, true);
 
         mThumbnail = (ImageView) findViewById(R.id.media_thumbnail);
         mCheckView = (CheckView) findViewById(R.id.check_view);
@@ -109,7 +109,7 @@ public class MediaGrid extends SquareFrameLayout implements View.OnClickListener
             mVideoDuration.setVisibility(VISIBLE);
 
             String time = DateUtils.formatElapsedTime(mMedia.mMediaDuration / 1000);
-            String times = context.getResources().getString(R.string.lib_selector_long, time);
+            String times = context.getResources().getString(R.string.lib_fs_string_long, time);
 
             mVideoDuration.setText(times);
         } else {

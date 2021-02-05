@@ -65,7 +65,7 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
             finish();
             return;
         }
-        setContentView(R.layout.lib_selector_activity_preview);
+        setContentView(R.layout.lib_fs_activity_preview);
         if (Platform.hasKitKat()) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
@@ -82,8 +82,8 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
             mSelectedCollection.onCreate(savedInstanceState);
             mOriginalEnable = savedInstanceState.getBoolean(CHECK_STATE);
         }
-        mButtonBack = (TextView) findViewById(R.id.button_back);
-        mButtonApply = (TextView) findViewById(R.id.button_apply);
+        mButtonBack = (TextView) findViewById(R.id.lib_fs_string_back);
+        mButtonApply = (TextView) findViewById(R.id.lib_fs_string_apply);
         mSize = (TextView) findViewById(R.id.size);
         mButtonBack.setOnClickListener(this);
         mButtonApply.setOnClickListener(this);
@@ -138,7 +138,7 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
                 int count = countOverMaxSize();
                 if (count > 0) {
                     IncapableDialog incapableDialog = IncapableDialog.newInstance("",
-                            getString(R.string.error_over_original_count, count, mSpec.originalMaxSize));
+                            getString(R.string.lib_fs_string_error_over_original_count, count, mSpec.originalMaxSize));
                     incapableDialog.show(getSupportFragmentManager(),
                             IncapableDialog.class.getName());
                     return;
@@ -175,9 +175,9 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.button_back) {
+        if (v.getId() == R.id.lib_fs_string_back) {
             onBackPressed();
-        } else if (v.getId() == R.id.button_apply) {
+        } else if (v.getId() == R.id.lib_fs_string_apply) {
             sendBackResult(true);
             finish();
         }
@@ -255,14 +255,14 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
     private void updateApplyButton() {
         int selectedCount = mSelectedCollection.count();
         if (selectedCount == 0) {
-            mButtonApply.setText(R.string.button_apply_default);
+            mButtonApply.setText(R.string.lib_fs_string_apply_default);
             mButtonApply.setEnabled(false);
         } else if (selectedCount == 1 && mSpec.singleSelectionModeEnabled()) {
-            mButtonApply.setText(R.string.button_apply_default);
+            mButtonApply.setText(R.string.lib_fs_string_apply_default);
             mButtonApply.setEnabled(true);
         } else {
             mButtonApply.setEnabled(true);
-            mButtonApply.setText(getString(R.string.button_apply, selectedCount));
+            mButtonApply.setText(getString(R.string.lib_fs_string_apply, selectedCount));
         }
 
         if (mSpec.originalable) {
@@ -284,7 +284,7 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
 
             if (mOriginalEnable) {
                 IncapableDialog incapableDialog = IncapableDialog.newInstance("",
-                        getString(R.string.error_over_original_size, mSpec.originalMaxSize));
+                        getString(R.string.lib_fs_string_error_over_original_size, mSpec.originalMaxSize));
                 incapableDialog.show(getSupportFragmentManager(),
                         IncapableDialog.class.getName());
 

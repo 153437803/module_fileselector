@@ -39,7 +39,7 @@ public class PreviewItemFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.lib_selector_activity_preview_type_item, container, false);
+        return inflater.inflate(R.layout.lib_fs_activity_preview_type_item, container, false);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class PreviewItemFragment extends Fragment {
                     try {
                         startActivity(intent);
                     } catch (ActivityNotFoundException e) {
-                        Toast.makeText(getContext(), R.string.error_no_video_activity, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.lib_fs_string_error_no_video_activity, Toast.LENGTH_SHORT).show();
                     }
                 }
             });

@@ -165,24 +165,24 @@ public class SelectedItemCollection {
 
             try {
                 cause = mContext.getResources().getString(
-                        R.string.error_over_count,
+                        R.string.lib_fs_string_error_over_count,
                         maxSelectable
                 );
             } catch (Resources.NotFoundException e) {
                 cause = mContext.getString(
-                        R.string.error_over_count,
+                        R.string.lib_fs_string_error_over_count,
                         maxSelectable
                 );
             } catch (NoClassDefFoundError e) {
                 cause = mContext.getString(
-                        R.string.error_over_count,
+                        R.string.lib_fs_string_error_over_count,
                         maxSelectable
                 );
             }
 
             return new FilterFailCause(cause);
         } else if (typeConflict(mediaModel)) {
-            return new FilterFailCause(mContext.getString(R.string.error_type_conflict));
+            return new FilterFailCause(mContext.getString(R.string.lib_fs_string_error_type_conflict));
         }
 
         return PhotoMetadataUtils.isAcceptable(mContext, mediaModel);

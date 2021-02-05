@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="ResourceName">
 
     <lib.kalu.fileselector.widget.PreviewViewPager
         android:id="@+id/pager"
@@ -20,13 +21,13 @@
         tools:targetApi="lollipop">
 
         <TextView
-            android:id="@+id/button_back"
+            android:id="@+id/lib_fs_string_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:foreground="?selectableItemBackground"
             android:padding="16dp"
-            android:text="@string/button_back"
+            android:text="@string/lib_fs_string_back"
             android:textColor="@color/fs_color_333333"
             android:textSize="16sp" />
 
@@ -50,7 +51,7 @@
                 android:orientation="horizontal"
                 android:padding="16dp"
                 android:visibility="gone"
-                tools:showIn="@layout/lib_selector_activity_selector">
+                tools:showIn="@layout/lib_fs_activity_selector">
 
                 <lib.kalu.fileselector.widget.CheckRadioView
                     android:id="@+id/original"
@@ -68,7 +69,7 @@
                     android:gravity="center"
                     android:paddingStart="4dp"
                     android:paddingLeft="4dp"
-                    android:text="@string/button_original"
+                    android:text="@string/lib_fs_string_button_original"
                     android:textColor="@color/fs_color_333333"
                     android:textSize="14sp" />
 
@@ -90,7 +91,7 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/button_apply"
+            android:id="@+id/lib_fs_string_apply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
