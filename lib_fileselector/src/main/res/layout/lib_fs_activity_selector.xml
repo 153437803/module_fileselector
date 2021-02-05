@@ -11,11 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:layout_centerHorizontal="true"
-        android:clickable="true"
         android:background="@drawable/lib_fs_ic_background_title"
+        android:clickable="true"
         android:drawableRight="@drawable/lib_fs_ic_rectangle"
         android:drawablePadding="6dp"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:text="@string/lib_fs_string_all"
@@ -23,8 +23,11 @@
         android:textSize="16sp" />
 
     <ImageView
+        android:id="@+id/fs_cancle"
         android:layout_width="56dp"
         android:layout_height="56dp"
+        android:background="@drawable/lib_fs_ic_background_cancle"
+        android:clickable="true"
         android:onClick="onBack"
         android:padding="19dp"
         android:src="@drawable/ic_selector_back" />

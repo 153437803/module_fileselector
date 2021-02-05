@@ -85,6 +85,14 @@ public class SelectorActivity extends AppCompatActivity implements
             return;
         }
 
+        // 取消
+        findViewById(R.id.fs_cancle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         if (mSpec.needOrientationRestriction()) {
             setRequestedOrientation(mSpec.orientation);
         }
