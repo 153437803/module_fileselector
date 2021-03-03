@@ -12,6 +12,14 @@ android {
         versionName rootProject.ext.android.versionName
         vectorDrawables.useSupportLibrary = true
 
+        libraryVariants.all { variant ->
+            variant.outputs.all {
+                def type = new String(buildType.name).toLowerCase()
+                def time = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08"))
+                outputFileName = "lib_fileselector_" + type + "_" + time + ".aar"
+            }
+        }
+
         ndk {
             abiFilters rootProject.ext.plugin.armeabi
         }
