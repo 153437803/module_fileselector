@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<paths>
+<paths xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
     <!--"."表示所有路径-->
     <external-path
         name="external_path"

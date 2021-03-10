@@ -18,13 +18,18 @@ public class CaptureModel implements Serializable {
     public final String authority;
     public final String directory;
 
-    public CaptureModel(boolean isPublic, String authority) {
-        this(isPublic, authority, null);
+    public CaptureModel(Context context, boolean isPublic) {
+        this(context, isPublic, "temp");
     }
 
-    public CaptureModel(boolean isPublic, String authority, String directory) {
+    public CaptureModel(Context context, boolean isPublic, String directory) {
         this.isPublic = isPublic;
-        this.authority = authority;
+
+        StringBuilder builder = new StringBuilder();
+        String packageName = context.getPackageName();
+        builder.append(packageName);
+        builder.append(".fs.fileprovider");
+        this.authority = builder.toString();
         this.directory = directory;
     }
 
