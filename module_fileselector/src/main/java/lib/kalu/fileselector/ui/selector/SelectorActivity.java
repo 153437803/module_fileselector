@@ -1,8 +1,10 @@
 package lib.kalu.fileselector.ui.selector;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -18,8 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -76,12 +80,7 @@ public class SelectorActivity extends AppCompatActivity implements
     private CheckRadioView mOriginal;
     private boolean mOriginalEnable;
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_selector);
-
+    private void loadData(){
         mSpec = SelectorModel.getInstance();
         if (!mSpec.hasInited) {
             setResult(RESULT_CANCELED);
@@ -118,16 +117,12 @@ public class SelectorActivity extends AppCompatActivity implements
         mOriginal = findViewById(R.id.original);
         mOriginalLayout.setOnClickListener(this);
 
-        mSelectedCollection.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            mOriginalEnable = savedInstanceState.getBoolean(CHECK_STATE);
-        }
-        updateBottomToolbar();
-
         TextView textView = findViewById(R.id.selector_title);
         mAlbumsAdapter = new AlbumsAdapter(this, null, false);
         mAlbumsSpinner = new AlbumsSpinner(this);
         mAlbumsSpinner.setAdapter(mAlbumsAdapter);
+
+        updateBottomToolbar();
 
         // 显示二级菜单
         boolean showMenuFolder = mSpec.showMenuFolder;
@@ -147,8 +142,40 @@ public class SelectorActivity extends AppCompatActivity implements
         }
 
         mAlbumCollection.onCreate(this, this);
-        mAlbumCollection.onRestoreInstanceState(savedInstanceState);
+//        mAlbumCollection.onRestoreInstanceState(savedInstanceState);
         mAlbumCollection.loadAlbums();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        try {
+            if (requestCode != 1001)
+                throw new Exception();
+            if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                throw new Exception();
+            loadData();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), R.string.lib_fs_string_permission_write_fail, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_selector);
+
+        mSelectedCollection.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            mOriginalEnable = savedInstanceState.getBoolean(CHECK_STATE);
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            loadData();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
+        }
     }
 
     @Override
@@ -369,7 +396,6 @@ public class SelectorActivity extends AppCompatActivity implements
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     @Override
