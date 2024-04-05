@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 Selector.with(MainActivity.this)
                         .newBuilder()
                         .setFilterMediaTypes(new String[]{"image"})
-                        .setFilterMimeTypes(new String[]{"png", "jpeg", "mp4"})
+                        .setFilterMimeTypes(new String[]{"png", "mp4"})
                         .setFilterImageMaxSizeMb(10)
                         .setFilterVideoMaxSizeMb(50)
                         .showCamera(false)
