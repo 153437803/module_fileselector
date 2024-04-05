@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,8 +26,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import lib.kalu.fileselector.R;
 import lib.kalu.fileselector.adapter.AlbumMediaAdapter;
@@ -40,6 +43,7 @@ import lib.kalu.fileselector.ui.base.BasePreviewActivity;
 import lib.kalu.fileselector.ui.fragment.SelectionFragment;
 import lib.kalu.fileselector.ui.priview.SimplePreviewActivity;
 import lib.kalu.fileselector.ui.priview.MulitPreviewActivity;
+import lib.kalu.fileselector.util.LogUtil;
 import lib.kalu.fileselector.util.MediaStoreCompat;
 import lib.kalu.fileselector.util.PathUtils;
 import lib.kalu.fileselector.util.PhotoMetadataUtils;
@@ -80,7 +84,7 @@ public class SelectorActivity extends AppCompatActivity implements
     private CheckRadioView mOriginal;
     private boolean mOriginalEnable;
 
-    private void loadData(){
+    private void loadData() {
         mSpec = SelectorModel.getInstance();
         if (!mSpec.hasInited) {
             setResult(RESULT_CANCELED);
@@ -390,7 +394,6 @@ public class SelectorActivity extends AppCompatActivity implements
         if (albumModel.isAll() && SelectorModel.getInstance().capture) {
             albumModel.addAlbumNum();
         }
-        Toast.makeText(getApplicationContext(), "onItemSelected", Toast.LENGTH_SHORT).show();
         onAlbumSelected(albumModel);
     }
 
@@ -398,48 +401,90 @@ public class SelectorActivity extends AppCompatActivity implements
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void onAlbumLoad(final Cursor cursor) {
-        Toast.makeText(getApplicationContext(),  "onAlbumLoad", Toast.LENGTH_SHORT).show();
-        mAlbumsAdapter.swapCursor(cursor);
-        // select default album.
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
+
+        new AsyncTask<Void, Void, List<AlbumModel>>() {
 
             @Override
-            public void run() {
-                cursor.moveToPosition(mAlbumCollection.getCurrentSelection());
-                mAlbumsSpinner.setSelection(SelectorActivity.this,
-                        mAlbumCollection.getCurrentSelection());
-                AlbumModel albumModel = AlbumModel.valueOf(cursor);
-                if (albumModel.isAll() && SelectorModel.getInstance().capture) {
-                    albumModel.addAlbumNum();
-                }
-                onAlbumSelected(albumModel);
+            protected void onPreExecute() {
+                mAlbumsAdapter.swapCursor(cursor);
             }
-        });
+
+            @Override
+            protected List<AlbumModel> doInBackground(Void... voids) {
+                ArrayList<AlbumModel> list = new ArrayList<>();
+
+                // 显示二级菜单
+                boolean showMenuFolder = mSpec.showMenuFolder;
+                if (showMenuFolder) {
+                    if (cursor.moveToFirst()) {
+                        do {
+                            AlbumModel albumModel = AlbumModel.valueOf(cursor);
+                            if (albumModel.isAll() && SelectorModel.getInstance().capture) {
+                                albumModel.addAlbumNum();
+                            }
+                            list.add(albumModel);
+                        } while (cursor.moveToNext());
+                    }
+                    cursor.close();
+                } else {
+                    cursor.moveToPosition(mAlbumCollection.getCurrentSelection());
+                    AlbumModel albumModel = AlbumModel.valueOf(cursor);
+                    if (albumModel.isAll() && SelectorModel.getInstance().capture) {
+                        albumModel.addAlbumNum();
+                    }
+                    list.add(albumModel);
+                    cursor.close();
+                }
+                return list;
+            }
+
+            @Override
+            protected void onPostExecute(List<AlbumModel> albumModels) {
+
+                int currentSelection = mAlbumCollection.getCurrentSelection();
+                mAlbumsSpinner.setSelection(SelectorActivity.this, currentSelection);
+
+                for (AlbumModel albumModel : albumModels) {
+                    if (null == albumModels)
+                        continue;
+                    LogUtil.logE("SelectorActivity => onAlbumLoad => tag = " + albumModel.getAlbumUriString());
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.container, SelectionFragment.newInstance(albumModel), albumModel.getAlbumUriString())
+                            .commitNowAllowingStateLoss();
+                }
+                onAlbumSelected(albumModels.get(currentSelection));
+            }
+        }.execute();
     }
 
     @Override
     public void onAlbumReset() {
-//        Toast.makeText(getApplicationContext(),  "onAlbumReset", Toast.LENGTH_SHORT).show();
         mAlbumsAdapter.swapCursor(null);
     }
 
     private void onAlbumSelected(AlbumModel albumModel) {
-
-        if (albumModel.isAll() && albumModel.isEmpty()) {
-            mContainer.setVisibility(View.GONE);
-            mEmptyView.setVisibility(View.VISIBLE);
-        } else {
+        try {
+            if (null == albumModel)
+                throw new Exception();
+            boolean empty = albumModel.isEmpty();
+            if (empty)
+                throw new Exception();
+            Toast.makeText(getApplicationContext(), albumModel.getAlbumUriString(), Toast.LENGTH_SHORT).show();
             mContainer.setVisibility(View.VISIBLE);
             mEmptyView.setVisibility(View.GONE);
-
-            Fragment fragment = SelectionFragment.newInstance(albumModel);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, fragment, SelectionFragment.class.getSimpleName())
-                    .commitAllowingStateLoss();
+            Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(albumModel.getAlbumUriString());
+            if (null == fragmentByTag)
+                throw new Exception("null == fragmentByTag");
+            getSupportFragmentManager().beginTransaction()
+                    .show(fragmentByTag)
+                    .commitNowAllowingStateLoss();
+        } catch (Exception e) {
+            LogUtil.logE("SelectorActivity => onAlbumSelected => " + e.getMessage());
+            mContainer.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -456,6 +501,7 @@ public class SelectorActivity extends AppCompatActivity implements
 
     @Override
     public void onMediaClick(AlbumModel albumModel, MediaModel mediaModel, int adapterPosition) {
+        Toast.makeText(getApplicationContext(),  "mediaModel = "+mediaModel.mMediaUriString, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, SimplePreviewActivity.class);
         intent.putExtra(SimplePreviewActivity.EXTRA_ALBUM, albumModel);
         intent.putExtra(SimplePreviewActivity.EXTRA_ITEM, mediaModel);
@@ -475,5 +521,4 @@ public class SelectorActivity extends AppCompatActivity implements
             mMediaStoreCompat.dispatchCaptureIntent(this, REQUEST_CODE_CAPTURE);
         }
     }
-
 }

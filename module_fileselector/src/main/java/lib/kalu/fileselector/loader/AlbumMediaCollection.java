@@ -27,7 +27,6 @@ public class AlbumMediaCollection implements LoaderManager.LoaderCallbacks<Curso
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Toast.makeText(mContext.get(),  "onCreateLoader", Toast.LENGTH_SHORT).show();
         try {
             Log.e("HHJHJH", "AlbumMediaCollection => onCreateLoader =>");
             Context context = mContext.get();
