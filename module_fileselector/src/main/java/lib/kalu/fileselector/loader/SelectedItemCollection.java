@@ -73,9 +73,6 @@ public class SelectedItemCollection {
     }
 
     public boolean add(MediaModel mediaModel) {
-        if (typeConflict(mediaModel)) {
-            throw new IllegalArgumentException("Can't select images and videos at the same time.");
-        }
         boolean added = mMediaModels.add(mediaModel);
         if (added) {
             if (mCollectionType == COLLECTION_UNDEFINED) {
@@ -181,8 +178,6 @@ public class SelectedItemCollection {
             }
 
             return new FilterFailCause(cause);
-        } else if (typeConflict(mediaModel)) {
-            return new FilterFailCause(mContext.getString(R.string.lib_fs_string_error_type_conflict));
         }
 
         return PhotoMetadataUtils.isAcceptable(mContext, mediaModel);
@@ -224,14 +219,6 @@ public class SelectedItemCollection {
         } else if (hasVideo) {
             mCollectionType = COLLECTION_VIDEO;
         }
-    }
-
-    /**
-     * Determine whether there will be conflict media types. A user can only select images and videos at the same time
-     */
-    public boolean typeConflict(MediaModel mediaModel) {
-        return  SelectorModel.getInstance().selectSingleMediaType &&  ((mediaModel.isImage() && (mCollectionType == COLLECTION_VIDEO || mCollectionType == COLLECTION_MIXED))
-                || (mediaModel.isVideo() && (mCollectionType == COLLECTION_IMAGE || mCollectionType == COLLECTION_MIXED)));
     }
 
     public int count() {

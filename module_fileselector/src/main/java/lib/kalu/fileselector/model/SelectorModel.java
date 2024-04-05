@@ -22,7 +22,6 @@ public final class SelectorModel {
 
     public int[] mediaTypes = new int[]{MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE, MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO};
     public String[] mimeTypes = new String[]{"image/png", "imeg/jpeg", "video/mp4"};
-    public boolean selectSingleMediaType;
     public int orientation;
     public boolean countable;
     public int maxSelectable;
@@ -61,7 +60,6 @@ public final class SelectorModel {
     private void reset() {
         mediaTypes = null;
         mimeTypes = null;
-        selectSingleMediaType = false;
 //        themeId = R.style.Theme1;
         orientation = 0;
         countable = false;

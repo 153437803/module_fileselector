@@ -81,17 +81,6 @@ public final class SelectionCreator {
     }
 
     /**
-     * 视频, 图片不同时显示
-     *
-     * @param showSingleMediaType
-     * @return
-     */
-    public SelectionCreator setSelectSingleMediaType(boolean selectSingleMediaType) {
-        mSelectorModel.selectSingleMediaType = selectSingleMediaType;
-        return this;
-    }
-
-    /**
      * 显示图片选择顺序
      *
      * @param countable
