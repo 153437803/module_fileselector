@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="ResourceName">
+
+    <TextView
+        android:id="@+id/selector_title"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:drawablePadding="6dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text="@string/lib_fs_string_all"
+        android:textColor="@color/fs_color_333333"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/fs_cancle"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/ic_background_cancle"
+        android:clickable="true"
+        android:onClick="onBack"
+        android:padding="19dp"
+        android:src="@drawable/ic_selector_back" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignBottom="@id/selector_title"
+        android:background="@color/fs_color_cccccc" />
+
+    <FrameLayout
+        android:id="@+id/bottom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/fs_color_cccccc"
+        android:elevation="4dp"
+        tools:targetApi="lollipop">
+
+        <TextView
+            android:id="@+id/lib_fs_string_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:foreground="?selectableItemBackground"
+            android:padding="16dp"
+            android:text="@string/lib_fs_string_preview"
+            android:textColor="@color/fs_color_333333"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/originalLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:foreground="?selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:visibility="visible"
+            tools:showIn="@layout/activity_selector">
+
+            <lib.kalu.fileselector.widget.CheckRadioView
+                android:id="@+id/original"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_preview_radio_off" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:enabled="true"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:text="@string/lib_fs_string_button_original"
+                android:textColor="@color/fs_color_333333"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/lib_fs_string_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:foreground="?selectableItemBackground"
+            android:padding="16dp"
+            android:textColor="@color/fs_color_333333"
+            android:textSize="16sp" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_toolbar"
+        android:layout_marginTop="56dp"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/empty_view_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:text="@string/lib_fs_string_empty"
+            android:textColor="@color/fs_color_333333"
+            android:textSize="16sp" />
+
+    </FrameLayout>
+
+</RelativeLayout>

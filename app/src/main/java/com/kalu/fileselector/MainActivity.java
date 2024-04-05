@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,7 +15,6 @@ import java.util.List;
 
 import lib.kalu.fileselector.Selector;
 import lib.kalu.fileselector.imageload.GlideImageload;
-import lib.kalu.fileselector.mimetype.SelectorMimeType;
 import lib.kalu.fileselector.model.CaptureModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,19 +30,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Selector.with(MainActivity.this)
-                        .setSelectorType(SelectorMimeType.ofAll(), false)
-                        .setImageOriginalEnable(true)
-                        .setCaptureEnable(true)
-                        .setCaptureFileProvider(
-                                new CaptureModel(false, getPackageName() + ".fileprovider", "test"))
-                        .setSelectMax(1)
-                        .setImageOriginalMaxSizeMb(10)
+                        .newBuilder()
+                        .setFilterMediaTypes(new String[]{"image"})
+                        .setFilterMimeTypes(new String[]{"png", "jpeg", "mp4"})
+                        .setFilterImageMaxSizeMb(10)
+                        .setFilterVideoMaxSizeMb(50)
+                        .showCamera(false)
+                        .showMenuFolder(true)
+                        .showImageOriginal(false)
+                        .setSelectMax(4)
+                        .setSelectSingleMediaType(true)
+                        .setFileProvider(new CaptureModel(getApplicationContext(), false, "test"))
                         .setOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                         .setThumbnailScale(0.85f)
                         .setImageload(new GlideImageload())
-                        .setPreviewSingleType(true)
-                        .setImageOriginalEnable(true)
-                        .setAutoHideToolbarOnSingleTap(true)
                         .startActivityForResult(1001);
             }
         });

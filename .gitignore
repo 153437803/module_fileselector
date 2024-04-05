@@ -1,6 +1,5 @@
-# Project exclude paths
+/.idea/
 /.gradle/
+/local.properties
 /app/build/
-/app/build/intermediates/javac/debug/classes/
-/lib_fileselector/build/
-/lib_fileselector/build/intermediates/javac/debug/classes/
+/module_fileselector/build/

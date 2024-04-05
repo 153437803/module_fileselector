@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+
+android {
+
+    namespace 'lib.kalu.fileselector'
+    compileSdkVersion 34
+    buildToolsVersion '34.0.0'
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 34
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            zipAlignEnabled false
+            shrinkResources false
+            multiDexEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard/proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled true
+            zipAlignEnabled false
+            shrinkResources false
+            multiDexEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard/proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    sourceSets.main {
+        jni.srcDirs = []
+    }
+
+    // 资源文件前缀
+    resourcePrefix "res_fs_"
+}
+
+dependencies {
+    compileOnly 'androidx.appcompat:appcompat:1.4.1'
+    compileOnly 'androidx.recyclerview:recyclerview:1.2.1'
+    compileOnly 'com.github.bumptech.glide:glide:4.13.0'
+}

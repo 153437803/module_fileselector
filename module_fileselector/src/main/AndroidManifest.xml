@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:requestLegacyExternalStorage="true">
+
+        <provider
+            android:name="lib.kalu.fileselector.provider.FsFileProvider"
+            android:authorities="${applicationId}.provider-fs"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fileprovider" />
+        </provider>
+
+        <activity
+            android:name="lib.kalu.fileselector.ui.selector.SelectorActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeFileSelect" />
+
+        <activity
+            android:name="lib.kalu.fileselector.ui.priview.SimplePreviewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeFileSelect" />
+
+        <activity
+            android:name="lib.kalu.fileselector.ui.priview.MulitPreviewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeFileSelect" />
+
+    </application>
+</manifest>
