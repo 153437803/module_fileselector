@@ -13,7 +13,7 @@ import androidx.annotation.Keep;
  * create by Administrator on 2020-03-26
  */
 @Keep
-public class SimpleImageload implements BaseImageload {
+public class UriImageload implements BaseImageload {
 
     @Override
     public void loadThumbnail(Context context, int resize, Drawable placeholder, ImageView imageView, String uriString) {

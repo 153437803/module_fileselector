@@ -10,6 +10,8 @@ import androidx.annotation.Keep;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
@@ -28,14 +30,15 @@ public class GlideImageload implements BaseImageload {
         RequestOptions requestOptions = new RequestOptions()
                 .override(resize, resize)
                 .placeholder(placeholder)
+                .encodeQuality(1)
+                .format(DecodeFormat.PREFER_RGB_565)
                 .priority(Priority.LOW)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop();
 
         Glide.with(context)
-                .asBitmap()
                 .load(uri)
                 .apply(requestOptions)
-                .transition(BitmapTransitionOptions.withCrossFade(100))
                 .into(imageView);
     }
 
@@ -51,14 +54,15 @@ public class GlideImageload implements BaseImageload {
         RequestOptions requestOptions = new RequestOptions()
                 .override(resize, resize)
                 .placeholder(placeholder)
+                .encodeQuality(1)
+                .format(DecodeFormat.PREFER_RGB_565)
                 .priority(Priority.LOW)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop();
 
         Glide.with(context)
-                .asBitmap()
                 .load(uri)
                 .apply(requestOptions)
-                .transition(BitmapTransitionOptions.withCrossFade(100))
                 .into(imageView);
     }
 
@@ -72,7 +76,10 @@ public class GlideImageload implements BaseImageload {
 
         RequestOptions requestOptions = new RequestOptions()
                 .override(resizeX, resizeY)
+                .encodeQuality(100)
+                .format(DecodeFormat.PREFER_RGB_565)
                 .priority(Priority.HIGH)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .fitCenter();
 
         Glide.with(context)
@@ -93,7 +100,10 @@ public class GlideImageload implements BaseImageload {
 
         RequestOptions requestOptions = new RequestOptions()
                 .override(resizeX, resizeY)
+                .encodeQuality(100)
+                .format(DecodeFormat.PREFER_RGB_565)
                 .priority(Priority.HIGH)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .fitCenter();
 
         Glide.with(context)
@@ -108,5 +118,4 @@ public class GlideImageload implements BaseImageload {
     public boolean supportAnimatedGif() {
         return true;
     }
-
 }

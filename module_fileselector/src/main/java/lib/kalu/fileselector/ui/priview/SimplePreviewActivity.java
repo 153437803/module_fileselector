@@ -62,7 +62,7 @@ public class SimplePreviewActivity extends BasePreviewActivity implements
         while (cursor.moveToNext()) {
             mediaModels.add(MediaModel.valueOf(cursor));
         }
-//        cursor.close();
+        cursor.close();
 
         if (mediaModels.isEmpty()) {
             return;

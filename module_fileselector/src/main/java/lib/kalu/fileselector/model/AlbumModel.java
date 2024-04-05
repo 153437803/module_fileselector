@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import androidx.annotation.Keep;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lib.kalu.fileselector.R;
 import lib.kalu.fileselector.cursor.TreeCursorLoader;
@@ -22,6 +23,8 @@ public class AlbumModel implements Serializable {
     public static final String ALBUM_ID_ALL = String.valueOf(-1);
     public static final String ALBUM_NAME_ALL = "All";
 
+    // fragmentByTags
+    private List<String> fragmentByTags;
     // 相册id
     private String mAlbumId;
     // 相册封面
@@ -80,5 +83,13 @@ public class AlbumModel implements Serializable {
 
     public boolean isEmpty() {
         return mAlbumNum == 0;
+    }
+
+    public List<String> getFragmentByTags() {
+        return fragmentByTags;
+    }
+
+    public void setFragmentByTags(List<String> fragmentByTags) {
+        this.fragmentByTags = fragmentByTags;
     }
 }

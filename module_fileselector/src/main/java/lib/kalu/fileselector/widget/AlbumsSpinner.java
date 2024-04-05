@@ -8,12 +8,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.ListPopupWindow;
 
 import lib.kalu.fileselector.R;
 import lib.kalu.fileselector.model.AlbumModel;
+import lib.kalu.fileselector.util.LogUtil;
 
 public class AlbumsSpinner {
 
@@ -85,7 +87,6 @@ public class AlbumsSpinner {
 
                 @Override
                 public void onClick(View v) {
-
                     try {
                         int itemHeight = v.getResources().getDimensionPixelSize(R.dimen.fs_d72);
                         mListPopupWindow.setHeight(
@@ -94,6 +95,7 @@ public class AlbumsSpinner {
                         mListPopupWindow.show();
                         mListPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
                     } catch (Exception e) {
+                        LogUtil.logE("AlbumsSpinner => setSelectedTextView => ");
                     }
                 }
             });

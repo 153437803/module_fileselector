@@ -7,10 +7,12 @@ import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.widget.ArrayAdapter;
 
 import androidx.loader.content.CursorLoader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -102,8 +104,8 @@ public class TreeCursorLoader extends CursorLoader {
         args = argsList.toArray(new String[argsList.size()]);
         selection = selectionBuilder.toString();
 
-        LogUtil.logE("TreeCursorLoader => newInstance => projection = " + projection.toString());
-        LogUtil.logE("TreeCursorLoader => newInstance => args = " + args.toString());
+        LogUtil.logE("TreeCursorLoader => newInstance => projection = " + Arrays.toString(projection));
+        LogUtil.logE("TreeCursorLoader => newInstance => args = " + Arrays.toString(args));
         LogUtil.logE("TreeCursorLoader => newInstance => selection = " + selection);
 
         return new TreeCursorLoader(context, projection, selection, args);

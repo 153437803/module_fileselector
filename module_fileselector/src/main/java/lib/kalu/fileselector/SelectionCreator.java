@@ -306,8 +306,8 @@ public final class SelectionCreator {
         return this;
     }
 
-    public SelectionCreator showMenuFolder(boolean showMenuFolder) {
-        mSelectorModel.showMenuFolder = showMenuFolder;
+    public SelectionCreator showFolders(boolean showFolders) {
+        mSelectorModel.showMenuFolder = showFolders;
         return this;
     }
 

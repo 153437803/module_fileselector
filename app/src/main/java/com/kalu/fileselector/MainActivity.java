@@ -15,6 +15,7 @@ import java.util.List;
 
 import lib.kalu.fileselector.Selector;
 import lib.kalu.fileselector.imageload.GlideImageload;
+import lib.kalu.fileselector.imageload.UriImageload;
 import lib.kalu.fileselector.model.CaptureModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,12 +37,13 @@ public class MainActivity extends AppCompatActivity {
                         .setFilterImageMaxSizeMb(10)
                         .setFilterVideoMaxSizeMb(50)
                         .showCamera(false)
-                        .showMenuFolder(true)
+                        .showFolders(false)
                         .showImageOriginal(false)
                         .setSelectMax(4)
                         .setFileProvider(new CaptureModel(getApplicationContext(), false, "test"))
                         .setOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                         .setThumbnailScale(0.85f)
+//                        .setImageload(new UriImageload())
                         .setImageload(new GlideImageload())
                         .startActivityForResult(1001);
             }

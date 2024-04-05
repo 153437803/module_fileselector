@@ -10,6 +10,7 @@ import android.util.Log;
 import androidx.loader.content.CursorLoader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import lib.kalu.fileselector.model.AlbumModel;
 import lib.kalu.fileselector.model.MediaModel;
@@ -89,7 +90,7 @@ public class MediaCursorLoader extends CursorLoader {
             // step1
             selectionBuilder.append("(");
             int[] mediaTypes = SelectorModel.getInstance().mediaTypes;
-            int mediaTypesLength = mediaTypes.length + 1;
+            int mediaTypesLength = mediaTypes.length;
             for (int i = 0; i < mediaTypesLength; i++) {
                 if (i > 0) {
                     selectionBuilder.append(" OR ");
@@ -131,8 +132,8 @@ public class MediaCursorLoader extends CursorLoader {
             selection = selectionBuilder.toString();
         }
 
-        LogUtil.logE("MediaCursorLoader => newInstance => args = "+args.toString());
-        LogUtil.logE("MediaCursorLoader => newInstance => selection = "+selection);
+        LogUtil.logE("MediaCursorLoader => newInstance => args = " + Arrays.toString(args));
+        LogUtil.logE("MediaCursorLoader => newInstance => selection = " + selection);
 
         return new MediaCursorLoader(context, selection, args, capture);
     }

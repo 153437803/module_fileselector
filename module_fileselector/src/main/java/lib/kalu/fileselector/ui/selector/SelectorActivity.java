@@ -85,12 +85,6 @@ public class SelectorActivity extends AppCompatActivity implements
     private boolean mOriginalEnable;
 
     private void loadData() {
-        mSpec = SelectorModel.getInstance();
-        if (!mSpec.hasInited) {
-            setResult(RESULT_CANCELED);
-            finish();
-            return;
-        }
 
         // 取消
         findViewById(R.id.fs_cancle).setOnClickListener(new View.OnClickListener() {
@@ -146,7 +140,6 @@ public class SelectorActivity extends AppCompatActivity implements
         }
 
         mAlbumCollection.onCreate(this, this);
-//        mAlbumCollection.onRestoreInstanceState(savedInstanceState);
         mAlbumCollection.loadAlbums();
     }
 
@@ -170,6 +163,14 @@ public class SelectorActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selector);
 
+        mSpec = SelectorModel.getInstance();
+        if (!mSpec.hasInited) {
+            setResult(RESULT_CANCELED);
+            finish();
+            return;
+        }
+
+        mAlbumCollection.onRestoreInstanceState(savedInstanceState);
         mSelectedCollection.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             mOriginalEnable = savedInstanceState.getBoolean(CHECK_STATE);
@@ -387,7 +388,7 @@ public class SelectorActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemSelected(AdapterView<?> parent1, View view1, int position, long id1) {
         mAlbumCollection.setStateCurrentSelection(position);
         mAlbumsAdapter.getCursor().moveToPosition(position);
         AlbumModel albumModel = AlbumModel.valueOf(mAlbumsAdapter.getCursor());
@@ -447,13 +448,31 @@ public class SelectorActivity extends AppCompatActivity implements
                 int currentSelection = mAlbumCollection.getCurrentSelection();
                 mAlbumsSpinner.setSelection(SelectorActivity.this, currentSelection);
 
+                ArrayList<String> fragmentByTags = new ArrayList<>();
                 for (AlbumModel albumModel : albumModels) {
                     if (null == albumModels)
                         continue;
-                    LogUtil.logE("SelectorActivity => onAlbumLoad => tag = " + albumModel.getAlbumUriString());
+                    String albumUriString = albumModel.getAlbumUriString();
+                    if (null == albumUriString || albumUriString.length() == 0)
+                        continue;
+                    if (fragmentByTags.contains(albumUriString))
+                        continue;
+                    fragmentByTags.add(albumUriString);
+                }
+
+                for (AlbumModel albumModel : albumModels) {
+                    if (null == albumModels)
+                        continue;
+                    String albumUriString = albumModel.getAlbumUriString();
+                    if (null == albumUriString || albumUriString.length() == 0)
+                        continue;
+                    Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(albumUriString);
+                    if (null != fragmentByTag)
+                        continue;
+                    albumModel.setFragmentByTags(fragmentByTags);
                     getSupportFragmentManager().beginTransaction()
-                            .add(R.id.container, SelectionFragment.newInstance(albumModel), albumModel.getAlbumUriString())
-                            .commitNowAllowingStateLoss();
+                            .add(R.id.container, SelectionFragment.newInstance(albumModel), albumUriString)
+                            .commitNow();
                 }
                 onAlbumSelected(albumModels.get(currentSelection));
             }
@@ -472,15 +491,30 @@ public class SelectorActivity extends AppCompatActivity implements
             boolean empty = albumModel.isEmpty();
             if (empty)
                 throw new Exception();
-            Toast.makeText(getApplicationContext(), albumModel.getAlbumUriString(), Toast.LENGTH_SHORT).show();
             mContainer.setVisibility(View.VISIBLE);
             mEmptyView.setVisibility(View.GONE);
-            Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(albumModel.getAlbumUriString());
-            if (null == fragmentByTag)
-                throw new Exception("null == fragmentByTag");
-            getSupportFragmentManager().beginTransaction()
-                    .show(fragmentByTag)
-                    .commitNowAllowingStateLoss();
+
+            String albumUriString = albumModel.getAlbumUriString();
+            List<String> fragmentByTags = albumModel.getFragmentByTags();
+            for (String s : fragmentByTags) {
+                FragmentManager supportFragmentManager = getSupportFragmentManager();
+                Fragment fragmentByTag = supportFragmentManager.findFragmentByTag(s);
+//                LogUtil.logE("SelectorActivity => onAlbumSelected => byTag = " + s + ", albumUriString = " + albumUriString + ", fragmentByTag = " + fragmentByTag);
+                if (null == fragmentByTag)
+                    continue;
+                if (albumUriString.equals(s)) {
+                    LogUtil.logE("SelectorActivity => onAlbumSelected => show => albumUriString = " + s);
+                    supportFragmentManager.beginTransaction()
+                            .show(fragmentByTag)
+                            .commitNow();
+                } else {
+                    LogUtil.logE("SelectorActivity => onAlbumSelected => hide => albumUriString = " + s);
+                    supportFragmentManager.beginTransaction()
+                            .hide(fragmentByTag)
+                            .commitNow();
+                }
+            }
+
         } catch (Exception e) {
             LogUtil.logE("SelectorActivity => onAlbumSelected => " + e.getMessage());
             mContainer.setVisibility(View.GONE);
@@ -501,7 +535,6 @@ public class SelectorActivity extends AppCompatActivity implements
 
     @Override
     public void onMediaClick(AlbumModel albumModel, MediaModel mediaModel, int adapterPosition) {
-        Toast.makeText(getApplicationContext(),  "mediaModel = "+mediaModel.mMediaUriString, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, SimplePreviewActivity.class);
         intent.putExtra(SimplePreviewActivity.EXTRA_ALBUM, albumModel);
         intent.putExtra(SimplePreviewActivity.EXTRA_ITEM, mediaModel);
