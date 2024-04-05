@@ -2,7 +2,8 @@ package lib.kalu.fileselector.adapter;
 
 import android.database.Cursor;
 import android.provider.MediaStore;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.
+RecyclerView;
 
 public abstract class RecyclerViewCursorAdapter<VH extends RecyclerView.ViewHolder> extends
         RecyclerView.Adapter<VH> {

@@ -3,7 +3,8 @@ package lib.kalu.fileselector.widget;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.
+RecyclerView;
 
 import android.text.format.DateUtils;
 import android.util.AttributeSet;

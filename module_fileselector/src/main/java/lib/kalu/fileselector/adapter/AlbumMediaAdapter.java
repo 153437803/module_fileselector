@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.
+GridLayoutManager;
+import androidx.recyclerview.widget.
+RecyclerView;
 
 import lib.kalu.fileselector.R;
 import lib.kalu.fileselector.filter.FilterFailCause;
