@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
                         .showMenuFolder(true)
                         .showImageOriginal(false)
                         .setSelectMax(4)
-                        .setSelectSingleMediaType(true)
                         .setFileProvider(new CaptureModel(getApplicationContext(), false, "test"))
                         .setOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                         .setThumbnailScale(0.85f)
@@ -52,15 +51,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == 1001 && resultCode == Activity.RESULT_OK) {
-
             List<String> list = Selector.obtainPathResult(data);
-            if (null == list || list.size() != 1)
-                return;
-
-            // toast
-            Toast.makeText(getApplicationContext(), list.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "选中：" + list.size() + "个", Toast.LENGTH_SHORT).show();
         }
     }
 }
