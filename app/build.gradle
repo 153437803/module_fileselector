@@ -34,8 +34,6 @@ android {
 dependencies {
 
     // 模块依赖
-//    implementation(name: 'lib_fileselector-release', ext: 'aar')
-//    implementation project(':lib_fileselector')
     implementation project(':module_fileselector')
 
 

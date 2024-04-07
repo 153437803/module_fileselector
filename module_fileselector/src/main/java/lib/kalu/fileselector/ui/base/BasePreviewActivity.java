@@ -20,7 +20,7 @@ import lib.kalu.fileselector.model.MediaModel;
 import lib.kalu.fileselector.model.SelectorModel;
 import lib.kalu.fileselector.loader.SelectedItemCollection;
 import lib.kalu.fileselector.adapter.PreviewPagerAdapter;
-import lib.kalu.fileselector.ui.fragment.PreviewItemFragment;
+import lib.kalu.fileselector.ui.priview.PreviewFragment;
 import lib.kalu.fileselector.widget.CheckRadioView;
 import lib.kalu.fileselector.widget.CheckView;
 import lib.kalu.fileselector.widget.IncapableDialog;
@@ -223,7 +223,7 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
     public void onPageSelected(int position) {
         PreviewPagerAdapter adapter = (PreviewPagerAdapter) mPager.getAdapter();
         if (mPreviousPos != -1 && mPreviousPos != position) {
-            ((PreviewItemFragment) adapter.instantiateItem(mPager, mPreviousPos)).resetView();
+            ((PreviewFragment) adapter.instantiateItem(mPager, mPreviousPos)).resetView();
 
             MediaModel mediaModel = adapter.getMediaItem(position);
             if (mSpec.countable) {

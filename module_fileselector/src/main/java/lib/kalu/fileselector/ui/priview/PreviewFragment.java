@@ -1,4 +1,4 @@
-package lib.kalu.fileselector.ui.fragment;
+package lib.kalu.fileselector.ui.priview;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -24,13 +24,13 @@ import lib.kalu.fileselector.util.UriUtil;
 import lib.kalu.fileselector.widget.zoomimage.ImageViewTouch;
 import lib.kalu.fileselector.widget.zoomimage.ImageViewTouchBase;
 
-public class PreviewItemFragment extends Fragment {
+public class PreviewFragment extends Fragment {
 
     private static final String ARGS_ITEM = "args_item";
     private OnFragmentInteractionListener mListener;
 
-    public static PreviewItemFragment newInstance(MediaModel mediaModel) {
-        PreviewItemFragment fragment = new PreviewItemFragment();
+    public static PreviewFragment newInstance(MediaModel mediaModel) {
+        PreviewFragment fragment = new PreviewFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(ARGS_ITEM, mediaModel);
         fragment.setArguments(bundle);

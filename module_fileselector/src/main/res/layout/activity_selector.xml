@@ -13,6 +13,8 @@
         android:layout_centerHorizontal="true"
         android:clickable="true"
         android:drawablePadding="6dp"
+        android:enabled="false"
+        android:background="@drawable/ic_background_title"
         android:gravity="center_vertical"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"

@@ -27,14 +27,14 @@
             android:theme="@style/ThemeFileSelect" />
 
         <activity
-            android:name="lib.kalu.fileselector.ui.priview.SimplePreviewActivity"
+            android:name="lib.kalu.fileselector.ui.priview.PreviewAllActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeFileSelect" />
 
         <activity
-            android:name="lib.kalu.fileselector.ui.priview.MulitPreviewActivity"
+            android:name="lib.kalu.fileselector.ui.priview.PreviewSelectorActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"
             android:screenOrientation="portrait"

@@ -19,7 +19,7 @@ import lib.kalu.fileselector.ui.base.BasePreviewActivity;
  * description: 默认预览
  * create by Administrator on 2020-03-26
  */
-public class SimplePreviewActivity extends BasePreviewActivity implements
+public class PreviewAllActivity extends BasePreviewActivity implements
         AlbumMediaCollection.AlbumMediaCallbacks {
 
     public static final String EXTRA_ALBUM = "extra_album";

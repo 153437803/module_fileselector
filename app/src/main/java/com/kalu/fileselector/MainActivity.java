@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                         .setFilterImageMaxSizeMb(10)
                         .setFilterVideoMaxSizeMb(50)
                         .showCamera(false)
-                        .showFolders(false)
+                        .showFolders(true)
                         .showImageOriginal(false)
                         .setSelectMax(4)
                         .setFileProvider(new CaptureModel(getApplicationContext(), false, "test"))

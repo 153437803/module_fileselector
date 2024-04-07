@@ -15,7 +15,7 @@ import lib.kalu.fileselector.ui.base.BasePreviewActivity;
  * description: 选中图片集合预览
  * create by Administrator on 2020-03-27
  */
-public class MulitPreviewActivity extends BasePreviewActivity {
+public class PreviewSelectorActivity extends BasePreviewActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

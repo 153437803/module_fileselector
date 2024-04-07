@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import lib.kalu.fileselector.model.MediaModel;
-import lib.kalu.fileselector.ui.fragment.PreviewItemFragment;
+import lib.kalu.fileselector.ui.priview.PreviewFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class PreviewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return PreviewItemFragment.newInstance(mMediaModels.get(position));
+        return PreviewFragment.newInstance(mMediaModels.get(position));
     }
 
     @Override

@@ -6,13 +6,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +23,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +36,8 @@ import lib.kalu.fileselector.model.AlbumModel;
 import lib.kalu.fileselector.model.MediaModel;
 import lib.kalu.fileselector.model.SelectorModel;
 import lib.kalu.fileselector.ui.base.BasePreviewActivity;
-import lib.kalu.fileselector.ui.fragment.SelectionFragment;
-import lib.kalu.fileselector.ui.priview.SimplePreviewActivity;
-import lib.kalu.fileselector.ui.priview.MulitPreviewActivity;
+import lib.kalu.fileselector.ui.priview.PreviewAllActivity;
+import lib.kalu.fileselector.ui.priview.PreviewSelectorActivity;
 import lib.kalu.fileselector.util.LogUtil;
 import lib.kalu.fileselector.util.MediaStoreCompat;
 import lib.kalu.fileselector.util.PathUtils;
@@ -58,7 +53,7 @@ import lib.kalu.fileselector.widget.IncapableDialog;
  */
 public class SelectorActivity extends AppCompatActivity implements
         AlbumCollection.AlbumCallbacks, AdapterView.OnItemSelectedListener,
-        SelectionFragment.SelectionProvider, View.OnClickListener,
+        SelectorFragment.SelectionProvider, View.OnClickListener,
         AlbumMediaAdapter.CheckStateListener, AlbumMediaAdapter.OnMediaClickListener,
         AlbumMediaAdapter.OnPhotoCapture {
 
@@ -115,7 +110,6 @@ public class SelectorActivity extends AppCompatActivity implements
         mOriginal = findViewById(R.id.original);
         mOriginalLayout.setOnClickListener(this);
 
-        TextView textView = findViewById(R.id.selector_title);
         mAlbumsAdapter = new AlbumsAdapter(this, null, false);
         mAlbumsSpinner = new AlbumsSpinner(this);
         mAlbumsSpinner.setAdapter(mAlbumsAdapter);
@@ -125,15 +119,14 @@ public class SelectorActivity extends AppCompatActivity implements
         // 显示二级菜单
         boolean showMenuFolder = mSpec.showMenuFolder;
         if (showMenuFolder) {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_rectangle);
-            textView.setCompoundDrawables(null, null, drawable, null);
-            textView.setBackgroundResource(R.drawable.ic_background_title);
+            TextView textView = findViewById(R.id.selector_title);
+            textView.setEnabled(true);
             mAlbumsSpinner.setSelectedTextView(textView);
             mAlbumsSpinner.setPopupAnchorView(textView);
             mAlbumsSpinner.setOnItemSelectedListener(this);
         } else {
-            textView.setCompoundDrawables(null, null, null, null);
-            textView.setBackgroundDrawable(null);
+            TextView textView = findViewById(R.id.selector_title);
+            textView.setEnabled(false);
             mAlbumsSpinner.setSelectedTextView(null);
             mAlbumsSpinner.setPopupAnchorView(null);
             mAlbumsSpinner.setOnItemSelectedListener(null);
@@ -248,9 +241,9 @@ public class SelectorActivity extends AppCompatActivity implements
             } else {
                 mSelectedCollection.overwrite(selected, collectionType);
                 Fragment mediaSelectionFragment = getSupportFragmentManager().findFragmentByTag(
-                        SelectionFragment.class.getSimpleName());
-                if (mediaSelectionFragment instanceof SelectionFragment) {
-                    ((SelectionFragment) mediaSelectionFragment).refreshMediaGrid();
+                        SelectorFragment.class.getSimpleName());
+                if (mediaSelectionFragment instanceof SelectorFragment) {
+                    ((SelectorFragment) mediaSelectionFragment).refreshMediaGrid();
                 }
                 updateBottomToolbar();
             }
@@ -345,7 +338,7 @@ public class SelectorActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.lib_fs_string_preview) {
-            Intent intent = new Intent(this, MulitPreviewActivity.class);
+            Intent intent = new Intent(this, PreviewSelectorActivity.class);
             intent.putExtra(BasePreviewActivity.EXTRA_DEFAULT_BUNDLE, mSelectedCollection.getDataWithBundle());
             intent.putExtra(BasePreviewActivity.EXTRA_RESULT_ORIGINAL_ENABLE, mOriginalEnable);
             startActivityForResult(intent, REQUEST_CODE_PREVIEW);
@@ -460,21 +453,27 @@ public class SelectorActivity extends AppCompatActivity implements
                     fragmentByTags.add(albumUriString);
                 }
 
+
                 for (AlbumModel albumModel : albumModels) {
                     if (null == albumModels)
                         continue;
-                    String albumUriString = albumModel.getAlbumUriString();
-                    if (null == albumUriString || albumUriString.length() == 0)
-                        continue;
-                    Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(albumUriString);
-                    if (null != fragmentByTag)
-                        continue;
-                    albumModel.setFragmentByTags(fragmentByTags);
-                    getSupportFragmentManager().beginTransaction()
-                            .add(R.id.container, SelectionFragment.newInstance(albumModel), albumUriString)
-                            .commitNow();
+                    String albumName = albumModel.getAlbumName(getApplicationContext());
+                    LogUtil.logE("SelectorActivity => onAlbumLoad => albumName = " + albumName);
                 }
-                onAlbumSelected(albumModels.get(currentSelection));
+
+
+//                for (AlbumModel albumModel : albumModels) {
+//                    if (null == albumModels)
+//                        continue;
+//                    String albumUriString = albumModel.getAlbumUriString();
+//                    if (null == albumUriString || albumUriString.length() == 0)
+//                        continue;
+//                    albumModel.setFragmentByTags(fragmentByTags);
+//                    getSupportFragmentManager().beginTransaction()
+//                            .add(R.id.container, SelectorFragment.newInstance(albumModel), albumUriString)
+//                            .commitNow();
+//                }
+                onAlbumSelected(albumModels.get(2));
             }
         }.execute();
     }
@@ -494,26 +493,28 @@ public class SelectorActivity extends AppCompatActivity implements
             mContainer.setVisibility(View.VISIBLE);
             mEmptyView.setVisibility(View.GONE);
 
-            String albumUriString = albumModel.getAlbumUriString();
-            List<String> fragmentByTags = albumModel.getFragmentByTags();
-            for (String s : fragmentByTags) {
-                FragmentManager supportFragmentManager = getSupportFragmentManager();
-                Fragment fragmentByTag = supportFragmentManager.findFragmentByTag(s);
-//                LogUtil.logE("SelectorActivity => onAlbumSelected => byTag = " + s + ", albumUriString = " + albumUriString + ", fragmentByTag = " + fragmentByTag);
-                if (null == fragmentByTag)
-                    continue;
-                if (albumUriString.equals(s)) {
-                    LogUtil.logE("SelectorActivity => onAlbumSelected => show => albumUriString = " + s);
-                    supportFragmentManager.beginTransaction()
-                            .show(fragmentByTag)
-                            .commitNow();
-                } else {
-                    LogUtil.logE("SelectorActivity => onAlbumSelected => hide => albumUriString = " + s);
-                    supportFragmentManager.beginTransaction()
-                            .hide(fragmentByTag)
-                            .commitNow();
-                }
-            }
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, SelectorFragment.newInstance(albumModel))
+                    .commitNow();
+
+//            String albumUriString = albumModel.getAlbumUriString();
+//            List<String> fragmentByTags = albumModel.getFragmentByTags();
+//            for (String s : fragmentByTags) {
+//                Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(s);
+//                if (null == fragmentByTag)
+//                    continue;
+//                if (albumUriString.equals(s)) {
+//                    LogUtil.logE("SelectorActivity => onAlbumSelected => show => albumUriString = " + s);
+//                    getSupportFragmentManager().beginTransaction()
+//                            .show(fragmentByTag)
+//                            .commitNow();
+//                } else {
+//                    LogUtil.logE("SelectorActivity => onAlbumSelected => hide => albumUriString = " + s);
+//                    getSupportFragmentManager().beginTransaction()
+//                            .hide(fragmentByTag)
+//                            .commitNow();
+//                }
+//            }
 
         } catch (Exception e) {
             LogUtil.logE("SelectorActivity => onAlbumSelected => " + e.getMessage());
@@ -535,9 +536,9 @@ public class SelectorActivity extends AppCompatActivity implements
 
     @Override
     public void onMediaClick(AlbumModel albumModel, MediaModel mediaModel, int adapterPosition) {
-        Intent intent = new Intent(this, SimplePreviewActivity.class);
-        intent.putExtra(SimplePreviewActivity.EXTRA_ALBUM, albumModel);
-        intent.putExtra(SimplePreviewActivity.EXTRA_ITEM, mediaModel);
+        Intent intent = new Intent(this, PreviewAllActivity.class);
+        intent.putExtra(PreviewAllActivity.EXTRA_ALBUM, albumModel);
+        intent.putExtra(PreviewAllActivity.EXTRA_ITEM, mediaModel);
         intent.putExtra(BasePreviewActivity.EXTRA_DEFAULT_BUNDLE, mSelectedCollection.getDataWithBundle());
         intent.putExtra(BasePreviewActivity.EXTRA_RESULT_ORIGINAL_ENABLE, mOriginalEnable);
         startActivityForResult(intent, REQUEST_CODE_PREVIEW);

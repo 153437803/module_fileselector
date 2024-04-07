@@ -1,5 +1,6 @@
-package lib.kalu.fileselector.ui.fragment;
+package lib.kalu.fileselector.ui.selector;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -20,10 +22,11 @@ import lib.kalu.fileselector.loader.AlbumMediaCollection;
 import lib.kalu.fileselector.loader.SelectedItemCollection;
 import lib.kalu.fileselector.model.AlbumModel;
 import lib.kalu.fileselector.model.MediaModel;
+import lib.kalu.fileselector.util.LogUtil;
 import lib.kalu.fileselector.util.UIUtils;
 import lib.kalu.fileselector.widget.MediaGridInset;
 
-public class SelectionFragment extends Fragment implements
+public class SelectorFragment extends Fragment implements
         AlbumMediaCollection.AlbumMediaCallbacks, AlbumMediaAdapter.CheckStateListener,
         AlbumMediaAdapter.OnMediaClickListener {
 
@@ -36,8 +39,8 @@ public class SelectionFragment extends Fragment implements
     private AlbumMediaAdapter.CheckStateListener mCheckStateListener;
     private AlbumMediaAdapter.OnMediaClickListener mOnMediaClickListener;
 
-    public static SelectionFragment newInstance(AlbumModel albumModel) {
-        SelectionFragment fragment = new SelectionFragment();
+    public static SelectorFragment newInstance(AlbumModel albumModel) {
+        SelectorFragment fragment = new SelectorFragment();
         Bundle args = new Bundle();
         args.putSerializable(EXTRA_ALBUM, albumModel);
         fragment.setArguments(args);
@@ -60,6 +63,12 @@ public class SelectionFragment extends Fragment implements
         }
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        LogUtil.logE("SelectorFragment => setUserVisibleHint => isVisibleToUser = "+isVisibleToUser);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -71,11 +80,8 @@ public class SelectionFragment extends Fragment implements
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-    }
+        LogUtil.logE("SelectorFragment => onViewCreated =>");
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         AlbumModel albumModel = (AlbumModel) getArguments().getSerializable(EXTRA_ALBUM);
 
         mAdapter = new AlbumMediaAdapter(getContext(),
@@ -101,8 +107,14 @@ public class SelectionFragment extends Fragment implements
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
+        LogUtil.logE("SelectorFragment => onDestroyView =>");
         mAlbumMediaCollection.onDestroy();
     }
 
