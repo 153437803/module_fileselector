@@ -473,7 +473,7 @@ public class SelectorActivity extends AppCompatActivity implements
 //                            .add(R.id.container, SelectorFragment.newInstance(albumModel), albumUriString)
 //                            .commitNow();
 //                }
-                onAlbumSelected(albumModels.get(2));
+                onAlbumSelected(albumModels.get(0));
             }
         }.execute();
     }
