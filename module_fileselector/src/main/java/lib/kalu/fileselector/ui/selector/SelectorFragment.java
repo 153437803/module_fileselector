@@ -1,6 +1,5 @@
 package lib.kalu.fileselector.ui.selector;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -8,20 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import lib.kalu.fileselector.R;
 import lib.kalu.fileselector.adapter.AlbumMediaAdapter;
-import lib.kalu.fileselector.model.SelectorModel;
 import lib.kalu.fileselector.loader.AlbumMediaCollection;
 import lib.kalu.fileselector.loader.SelectedItemCollection;
 import lib.kalu.fileselector.model.AlbumModel;
 import lib.kalu.fileselector.model.MediaModel;
+import lib.kalu.fileselector.model.SelectorModel;
 import lib.kalu.fileselector.util.LogUtil;
 import lib.kalu.fileselector.util.UIUtils;
 import lib.kalu.fileselector.widget.MediaGridInset;
