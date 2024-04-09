@@ -43,12 +43,20 @@ public class AlbumModel implements Serializable {
     }
 
     public static AlbumModel valueOf(Cursor cursor) {
-        String clumn = cursor.getString(cursor.getColumnIndex(TreeCursorLoader.COLUMN_URI));
-        return new AlbumModel(
-                cursor.getString(cursor.getColumnIndex("bucket_id")),
-                Uri.parse(clumn != null ? clumn : ""),
-                cursor.getString(cursor.getColumnIndex("bucket_display_name")),
-                cursor.getLong(cursor.getColumnIndex(TreeCursorLoader.COLUMN_COUNT)));
+        try {
+            int _uri = cursor.getColumnIndex("uri");
+            String cursorString = cursor.getString(_uri);
+            Uri uri = Uri.parse(cursorString != null ? cursorString : "");
+            int _bucket_id = cursor.getColumnIndex("bucket_id");
+            String bucket_id = cursor.getString(_bucket_id);
+            int _bucket_display_name = cursor.getColumnIndex("bucket_display_name");
+            String bucket_display_name = cursor.getString(_bucket_display_name);
+            int _count = cursor.getColumnIndex("count");
+            long count = cursor.getLong(_count);
+            return new AlbumModel(bucket_id, uri, bucket_display_name, count);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public String getId() {
