@@ -12,6 +12,10 @@ import androidx.loader.content.CursorLoader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import lib.kalu.fileselector.model.AlbumModel;
 import lib.kalu.fileselector.model.SelectorModel;
@@ -113,62 +117,150 @@ public class TreeCursorLoader extends CursorLoader {
             Cursor cursor = super.loadInBackground();
             if (null == cursor)
                 throw new Exception("error: null == cursor");
-            // 1. 构建全部相册
-            if (!cursor.moveToFirst())
-                throw new Exception();
-            int _id_all = cursor.getColumnIndex(MediaStore.Files.FileColumns._ID);
-            long id_all = cursor.getLong(_id_all);
-            int _mime_type_all = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE);
-            String mimeType_all = cursor.getString(_mime_type_all);
-            Uri url_all;
-            if (mimeType_all.startsWith("image/")) {
-                url_all = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id_all);
-            } else if (mimeType_all.startsWith("video/")) {
-                url_all = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id_all);
-            } else {
-                url_all = ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), id_all);
-            }
-            // 2. 查找相册
-            int totalCount = 0;
-            MatrixCursor otherAlbums = new MatrixCursor(COLUMNS);
-            while (cursor.moveToNext()) {
-                // 1
-                int _id = cursor.getColumnIndex(MediaStore.Files.FileColumns._ID);
-                long id = cursor.getLong(_id);
-                // 2
-                int _bucket_id = cursor.getColumnIndex(COLUMN_BUCKET_ID);
-                long bucketId = cursor.getLong(_bucket_id);
-                // 3
-                int _bucket_display_name = cursor.getColumnIndex(COLUMN_BUCKET_DISPLAY_NAME);
-                String bucketDisplayName = cursor.getString(_bucket_display_name);
-                // 4
-                int _mime_type = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE);
-                String mimeType = cursor.getString(_mime_type);
-                // 5
-                int _count = cursor.getColumnIndex(COLUMN_COUNT);
-                int count = cursor.getInt(_count);
-                // 6
-                Uri uri;
-                if (mimeType.startsWith("image/")) {
-                    uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-                } else if (mimeType.startsWith("video/")) {
-                    uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
-                } else {
-                    uri = ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), id);
+
+            // android10
+            if (android.os.Build.VERSION.SDK_INT >= 30) {
+                // 1.1 查找相册
+                int totalCount = 0;
+                Map<Long, Long> countMap = new HashMap<>();
+                while (cursor.moveToNext()) {
+                    int _bucket_id = cursor.getColumnIndex(COLUMN_BUCKET_ID);
+                    long bucketId = cursor.getLong(_bucket_id);
+                    Long count = countMap.get(bucketId);
+                    if (count == null) {
+                        count = 1L;
+                    } else {
+                        count++;
+                    }
+                    countMap.put(bucketId, count);
                 }
-                String uriString = uri.toString();
-                LogUtil.logE("TreeCursorLoader => loadInBackground => id = " + id + ", bucketId = " + bucketId + ", bucketDisplayName = " + bucketDisplayName + ", mimeType = " + mimeType + ", count = " + count + ", uriString = " + uriString);
-                // 7
-                otherAlbums.addRow(new String[]{Long.toString(id), Long.toString(bucketId), bucketDisplayName, mimeType, uriString, String.valueOf(count)});
-                totalCount += count;
+                // 1.2 查找相册
+                MatrixCursor otherAlbums = new MatrixCursor(COLUMNS);
+                Uri allAlbumCoverUri = null;
+                if (cursor.moveToFirst()) {
+
+                    // 1
+                    int _first_id = cursor.getColumnIndex(MediaStore.Files.FileColumns._ID);
+                    long firstId = cursor.getLong(_first_id);
+                    // 2
+                    int _first_mime_type = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE);
+                    String firstMimeType = cursor.getString(_first_mime_type);
+                    // 3
+                    if (firstMimeType.startsWith("image/")) {
+                        allAlbumCoverUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, firstId);
+                    } else if (firstMimeType.startsWith("video/")) {
+                        allAlbumCoverUri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, firstId);
+                    } else {
+                        allAlbumCoverUri = ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), firstId);
+                    }
+
+                    Set<Long> done = new HashSet<>();
+                    do {
+                        int __bucket_id = cursor.getColumnIndex(COLUMN_BUCKET_ID);
+                        long bucketId = cursor.getLong(__bucket_id);
+                        if (done.contains(bucketId))
+                            continue;
+
+                        // 1
+                        int _id = cursor.getColumnIndex(MediaStore.Files.FileColumns._ID);
+                        long id = cursor.getLong(_id);
+                        // 2
+                        int _bucket_display_name = cursor.getColumnIndex(COLUMN_BUCKET_DISPLAY_NAME);
+                        String bucketDisplayName = cursor.getString(_bucket_display_name);
+                        // 3
+                        int _mime_type = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE);
+                        String mimeType = cursor.getString(_mime_type);
+                        // 4
+                        Uri uri;
+                        if (mimeType.startsWith("image/")) {
+                            uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+                        } else if (mimeType.startsWith("video/")) {
+                            uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
+                        } else {
+                            uri = ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), id);
+                        }
+                        long count = countMap.get(bucketId);
+
+                        otherAlbums.addRow(new String[]{
+                                Long.toString(id),
+                                Long.toString(bucketId),
+                                bucketDisplayName,
+                                mimeType,
+                                uri.toString(),
+                                String.valueOf(count)});
+                        done.add(bucketId);
+
+                        totalCount += count;
+                    } while (cursor.moveToNext());
+                }
+                // 3. 合并相册
+                MatrixCursor allAlbums = new MatrixCursor(COLUMNS);
+                allAlbums.addRow(new String[]{
+                        AlbumModel.ALBUM_ID_ALL,
+                        AlbumModel.ALBUM_ID_ALL, AlbumModel.ALBUM_NAME_ALL, null,
+                        allAlbumCoverUri == null ? null : allAlbumCoverUri.toString(),
+                        String.valueOf(totalCount)});
+                return new MergeCursor(new Cursor[]{allAlbums, otherAlbums});
             }
-            // 3. 合并相册
-            MatrixCursor allAlbums = new MatrixCursor(COLUMNS);
-            allAlbums.addRow(new String[]{
-                    AlbumModel.ALBUM_ID_ALL, AlbumModel.ALBUM_ID_ALL, AlbumModel.ALBUM_NAME_ALL, null,
-                    url_all == null ? null : url_all.toString(),
-                    String.valueOf(totalCount)});
-            return new MergeCursor(new Cursor[]{allAlbums, otherAlbums});
+            // android9
+            else {
+                // 1. 查找相册
+                int totalCount = 0;
+                MatrixCursor otherAlbums = new MatrixCursor(COLUMNS);
+                while (cursor.moveToNext()) {
+                    // 1
+                    int _id = cursor.getColumnIndex(MediaStore.Files.FileColumns._ID);
+                    long id = cursor.getLong(_id);
+                    // 2
+                    int _bucket_id = cursor.getColumnIndex(COLUMN_BUCKET_ID);
+                    long bucketId = cursor.getLong(_bucket_id);
+                    // 3
+                    int _bucket_display_name = cursor.getColumnIndex(COLUMN_BUCKET_DISPLAY_NAME);
+                    String bucketDisplayName = cursor.getString(_bucket_display_name);
+                    // 4
+                    int _mime_type = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE);
+                    String mimeType = cursor.getString(_mime_type);
+                    // 5
+                    int _count = cursor.getColumnIndex(COLUMN_COUNT);
+                    int count = cursor.getInt(_count);
+                    // 6
+                    Uri uri;
+                    if (mimeType.startsWith("image/")) {
+                        uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+                    } else if (mimeType.startsWith("video/")) {
+                        uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
+                    } else {
+                        uri = ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), id);
+                    }
+                    String uriString = uri.toString();
+                    LogUtil.logE("TreeCursorLoader => loadInBackground => id = " + id + ", bucketId = " + bucketId + ", bucketDisplayName = " + bucketDisplayName + ", mimeType = " + mimeType + ", count = " + count + ", uriString = " + uriString);
+                    // 7
+                    otherAlbums.addRow(new String[]{Long.toString(id), Long.toString(bucketId), bucketDisplayName, mimeType, uriString, String.valueOf(count)});
+                    totalCount += count;
+                }
+                // 2. 构建全部相册
+                if (!cursor.moveToFirst())
+                    throw new Exception();
+                int _id_all = cursor.getColumnIndex(MediaStore.Files.FileColumns._ID);
+                long id_all = cursor.getLong(_id_all);
+                int _mime_type_all = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE);
+                String mimeType_all = cursor.getString(_mime_type_all);
+                Uri url_all;
+                if (mimeType_all.startsWith("image/")) {
+                    url_all = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id_all);
+                } else if (mimeType_all.startsWith("video/")) {
+                    url_all = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id_all);
+                } else {
+                    url_all = ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), id_all);
+                }
+                // 3. 合并相册
+                MatrixCursor allAlbums = new MatrixCursor(COLUMNS);
+                allAlbums.addRow(new String[]{
+                        AlbumModel.ALBUM_ID_ALL, AlbumModel.ALBUM_ID_ALL, AlbumModel.ALBUM_NAME_ALL, null,
+                        url_all == null ? null : url_all.toString(),
+                        String.valueOf(totalCount)});
+                return new MergeCursor(new Cursor[]{allAlbums, otherAlbums});
+            }
         } catch (Exception e) {
             LogUtil.logE("TreeCursorLoader => loadInBackground => " + e.getMessage());
             return null;
