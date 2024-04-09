@@ -17,6 +17,7 @@ import lib.kalu.fileselector.Selector;
 import lib.kalu.fileselector.imageload.GlideImageload;
 import lib.kalu.fileselector.imageload.UriImageload;
 import lib.kalu.fileselector.model.CaptureModel;
+import lib.kalu.fileselector.ui.selector.SelectorActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,9 +54,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1001 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == 1001 && resultCode == SelectorActivity.RESULT_SUCC) {
             List<String> list = Selector.obtainPathResult(data);
             Toast.makeText(getApplicationContext(), "选中：" + list.size() + "个", Toast.LENGTH_SHORT).show();
+        } else if (requestCode == 1001 && resultCode == SelectorActivity.RESULT_FAIL) {
+            Toast.makeText(getApplicationContext(), "取消", Toast.LENGTH_SHORT).show();
         }
     }
 }

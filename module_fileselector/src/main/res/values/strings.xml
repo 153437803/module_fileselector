@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
 
-    <string name="lib_fs_string_all">全部▲△▼▽</string>
+    <string name="lib_fs_string_all">全部</string>
+<!--    <string name="lib_fs_string_all2">全部▲△▼▽</string>-->
     <string name="lib_fs_string_unnamed">未命名</string>
     <string name="lib_fs_string_gif">动图</string>
     <string name="lib_fs_string_play">播放</string>

@@ -18,7 +18,6 @@
         android:gravity="center_vertical"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:text="@string/lib_fs_string_all"
         android:textColor="@color/fs_color_333333"
         android:textSize="16sp" />
 

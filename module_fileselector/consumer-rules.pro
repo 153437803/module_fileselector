@@ -1,0 +1,6 @@
+-dontwarn lib.kalu.fileselector.**
+-keep class lib.kalu.fileselector.Selector{*;}
+-keep class lib.kalu.fileselector.SelectionCreator{*;}
+-keep class lib.kalu.fileselector.ui.selector.SelectorActivity{*;}
+-keep class lib.kalu.fileselector.ui.priview.PreviewAllActivity{*;}
+-keep class lib.kalu.fileselector.ui.priview.PreviewSelectorActivity{*;}

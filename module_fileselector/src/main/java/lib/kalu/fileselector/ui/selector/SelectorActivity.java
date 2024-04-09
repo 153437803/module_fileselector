@@ -57,6 +57,9 @@ public class SelectorActivity extends AppCompatActivity implements
         AlbumMediaAdapter.CheckStateListener, AlbumMediaAdapter.OnMediaClickListener,
         AlbumMediaAdapter.OnPhotoCapture {
 
+    public static final int RESULT_FAIL = 4001;
+    public static final int RESULT_SUCC = 4002;
+
     public static final String EXTRA_RESULT_SELECTION = "extra_result_selection";
     public static final String EXTRA_RESULT_SELECTION_PATH = "extra_result_selection_path";
     public static final String EXTRA_RESULT_ORIGINAL_ENABLE = "extra_result_original_enable";
@@ -158,7 +161,7 @@ public class SelectorActivity extends AppCompatActivity implements
 
         mSpec = SelectorModel.getInstance();
         if (!mSpec.hasInited) {
-            setResult(RESULT_CANCELED);
+            setResult(RESULT_FAIL);
             finish();
             return;
         }
@@ -203,7 +206,7 @@ public class SelectorActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        setResult(Activity.RESULT_CANCELED);
+        setResult(RESULT_FAIL);
         super.onBackPressed();
     }
 
@@ -236,7 +239,7 @@ public class SelectorActivity extends AppCompatActivity implements
                 result.putExtra(EXTRA_RESULT_SELECTION, selectedUris);
                 result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPaths);
                 result.putExtra(EXTRA_RESULT_ORIGINAL_ENABLE, mOriginalEnable);
-                setResult(RESULT_OK, result);
+                setResult(RESULT_SUCC, result);
                 finish();
             } else {
                 mSelectedCollection.overwrite(selected, collectionType);
@@ -258,7 +261,7 @@ public class SelectorActivity extends AppCompatActivity implements
             Intent result = new Intent();
             result.putExtra(EXTRA_RESULT_SELECTION, selected);
             result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPath);
-            setResult(RESULT_OK, result);
+            setResult(RESULT_SUCC, result);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
                 SelectorActivity.this.revokeUriPermission(contentUri,
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -359,7 +362,7 @@ public class SelectorActivity extends AppCompatActivity implements
             ArrayList<String> selectedPaths = (ArrayList<String>) mSelectedCollection.asListOfString();
             result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPaths);
             result.putExtra(EXTRA_RESULT_ORIGINAL_ENABLE, mOriginalEnable);
-            setResult(RESULT_OK, result);
+            setResult(RESULT_SUCC, result);
             finish();
         } else if (v.getId() == R.id.originalLayout) {
             int count = countOverMaxSize();

@@ -34,8 +34,8 @@ android {
 dependencies {
 
     // 模块依赖
-    implementation project(':module_fileselector')
-
+    // implementation project(':module_fileselector')
+    implementation files('libs/module_fileselector-release.aar')
 
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
