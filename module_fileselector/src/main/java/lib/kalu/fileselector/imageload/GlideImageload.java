@@ -3,6 +3,7 @@ package lib.kalu.fileselector.imageload;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.text.Selection;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -16,8 +17,27 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
+import lib.kalu.fileselector.SelectionCreator;
+import lib.kalu.fileselector.Selector;
+
 @Keep
 public class GlideImageload implements BaseImageload {
+
+    private int thumbnailQuality;
+
+    public GlideImageload() {
+        thumbnailQuality = 10;
+    }
+
+    public GlideImageload(int quality) {
+        if (quality < 1) {
+            thumbnailQuality = 1;
+        } else if (quality > 100) {
+            thumbnailQuality = 100;
+        } else {
+            thumbnailQuality = quality;
+        }
+    }
 
     @Override
     public void loadThumbnail(Context context, int resize, Drawable placeholder, ImageView imageView, String uriString) {
@@ -30,7 +50,7 @@ public class GlideImageload implements BaseImageload {
         RequestOptions requestOptions = new RequestOptions()
                 .override(resize, resize)
                 .placeholder(placeholder)
-                .encodeQuality(1)
+                .encodeQuality(thumbnailQuality)
                 .format(DecodeFormat.PREFER_RGB_565)
                 .priority(Priority.LOW)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -54,7 +74,7 @@ public class GlideImageload implements BaseImageload {
         RequestOptions requestOptions = new RequestOptions()
                 .override(resize, resize)
                 .placeholder(placeholder)
-                .encodeQuality(1)
+                .encodeQuality(thumbnailQuality)
                 .format(DecodeFormat.PREFER_RGB_565)
                 .priority(Priority.LOW)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

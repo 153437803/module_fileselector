@@ -6,6 +6,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.IntRange;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -230,20 +231,6 @@ public final class SelectionCreator {
      */
     public SelectionCreator setGridSpacingSize(int size) {
         mSelectorModel.gridExpectedSize = size;
-        return this;
-    }
-
-    /**
-     * Photo thumbnail's scale compared to the View's size. It should be a float value in (0.0,
-     * 1.0].
-     *
-     * @param scale Thumbnail's scale in (0.0, 1.0]. Default value is 0.5.
-     * @return {@link SelectionCreator} for fluent API.
-     */
-    public SelectionCreator setThumbnailScale(float scale) {
-        if (scale <= 0f || scale > 1f)
-            throw new IllegalArgumentException("Thumbnail scale must be between (0.0, 1.0]");
-        mSelectorModel.thumbnailScale = scale;
         return this;
     }
 

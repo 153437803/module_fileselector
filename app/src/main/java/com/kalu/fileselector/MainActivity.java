@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
                         .setSelectMax(4)
                         .setFileProvider(new CaptureModel(getApplicationContext(), false, "test"))
                         .setOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                        .setThumbnailScale(0.85f)
-//                        .setImageload(new UriImageload())
                         .setImageload(new GlideImageload())
                         .startActivityForResult(1001);
             }

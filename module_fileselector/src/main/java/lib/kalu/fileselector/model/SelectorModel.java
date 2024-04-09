@@ -32,7 +32,6 @@ public final class SelectorModel {
     public CaptureModel captureModel;
     public int spanCount;
     public int gridExpectedSize;
-    public float thumbnailScale;
     public BaseImageload baseImageload;
     public boolean hasInited;
     public OnSelectedListener onSelectedListener;
@@ -71,7 +70,6 @@ public final class SelectorModel {
         captureModel = null;
         spanCount = 3;
         gridExpectedSize = 0;
-        thumbnailScale = 0.5f;
         baseImageload = new GlideImageload();
         hasInited = true;
         originalable = false;
