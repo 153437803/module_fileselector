@@ -38,6 +38,7 @@ public class AlbumMediaAdapter extends
     private OnMediaClickListener mOnMediaClickListener;
     private RecyclerView mRecyclerView;
     private int mImageResize;
+    private int mThumbnailQuality;
 
     public AlbumMediaAdapter(Context context, SelectedItemCollection selectedCollection, RecyclerView recyclerView) {
         super(null);
@@ -102,7 +103,7 @@ public class AlbumMediaAdapter extends
 
             final MediaModel mediaModel = MediaModel.valueOf(cursor);
             mediaViewHolder.mMediaGrid.preBindMedia(new MediaGrid.PreBindInfo(
-                    getImageResize(mediaViewHolder.mMediaGrid.getContext()),
+                    mSelectorModel.thumbnailQuality,
                     mPlaceholder,
                     mSelectorModel.countable,
                     holder
@@ -241,18 +242,18 @@ public class AlbumMediaAdapter extends
         }
     }
 
-    private int getImageResize(Context context) {
-        if (mImageResize == 0) {
-            RecyclerView.LayoutManager lm = mRecyclerView.getLayoutManager();
-            int spanCount = ((GridLayoutManager) lm).getSpanCount();
-            int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
-            int availableWidth = screenWidth - context.getResources().getDimensionPixelSize(
-                    R.dimen.fs_d4) * (spanCount - 1);
-            mImageResize = availableWidth / spanCount;
-            mImageResize = (int) (mImageResize * mSelectorModel.thumbnailScale);
-        }
-        return mImageResize;
-    }
+//    private int getImageResize(Context context) {
+//        if (mImageResize == 0) {
+//            RecyclerView.LayoutManager lm = mRecyclerView.getLayoutManager();
+//            int spanCount = ((GridLayoutManager) lm).getSpanCount();
+//            int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
+//            int availableWidth = screenWidth - context.getResources().getDimensionPixelSize(
+//                    R.dimen.fs_d4) * (spanCount - 1);
+//            mImageResize = availableWidth / spanCount;
+//            mImageResize = (int) (mImageResize * mSelectorModel.thumbnailScale);
+//        }
+//        return mImageResize;
+//    }
 
     public interface CheckStateListener {
         void onUpdate();

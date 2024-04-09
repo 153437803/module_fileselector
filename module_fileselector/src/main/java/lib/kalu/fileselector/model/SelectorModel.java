@@ -42,6 +42,7 @@ public final class SelectorModel {
     public OnCheckedListener onCheckedListener;
     public boolean showPreview = false;
     public boolean showMenuFolder = false;
+    public int thumbnailQuality = 10;
 
     private SelectorModel() {
     }
@@ -77,6 +78,7 @@ public final class SelectorModel {
         imageOriginalMaxSize = Integer.MAX_VALUE;
         videoOriginalMaxSize = Integer.MAX_VALUE;
         showPreview = true;
+        thumbnailQuality = 10;
     }
 
     public boolean singleSelectionModeEnabled() {

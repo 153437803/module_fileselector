@@ -23,24 +23,8 @@ import lib.kalu.fileselector.Selector;
 @Keep
 public class GlideImageload implements BaseImageload {
 
-    private int thumbnailQuality;
-
-    public GlideImageload() {
-        thumbnailQuality = 10;
-    }
-
-    public GlideImageload(int quality) {
-        if (quality < 1) {
-            thumbnailQuality = 1;
-        } else if (quality > 100) {
-            thumbnailQuality = 100;
-        } else {
-            thumbnailQuality = quality;
-        }
-    }
-
     @Override
-    public void loadThumbnail(Context context, int resize, Drawable placeholder, ImageView imageView, String uriString) {
+    public void loadThumbnail(Context context,  int thumbnailQuality, Drawable placeholder, ImageView imageView, String uriString) {
 
         if (TextUtils.isEmpty(uriString))
             return;
@@ -48,7 +32,7 @@ public class GlideImageload implements BaseImageload {
         Uri uri = Uri.parse(uriString);
 
         RequestOptions requestOptions = new RequestOptions()
-                .override(resize, resize)
+//                .override(resize, resize)
                 .placeholder(placeholder)
                 .encodeQuality(thumbnailQuality)
                 .format(DecodeFormat.PREFER_RGB_565)
@@ -63,8 +47,7 @@ public class GlideImageload implements BaseImageload {
     }
 
     @Override
-    public void loadGifThumbnail(Context context, int resize, Drawable placeholder, ImageView imageView,
-                                 String uriString) {
+    public void loadGifThumbnail(Context context, int thumbnailQuality, Drawable placeholder, ImageView imageView, String uriString) {
 
         if (TextUtils.isEmpty(uriString))
             return;
@@ -72,7 +55,7 @@ public class GlideImageload implements BaseImageload {
         Uri uri = Uri.parse(uriString);
 
         RequestOptions requestOptions = new RequestOptions()
-                .override(resize, resize)
+//                .override(resize, resize)
                 .placeholder(placeholder)
                 .encodeQuality(thumbnailQuality)
                 .format(DecodeFormat.PREFER_RGB_565)
@@ -87,7 +70,7 @@ public class GlideImageload implements BaseImageload {
     }
 
     @Override
-    public void loadImage(Context context, int resizeX, int resizeY, ImageView imageView, String uriString) {
+    public void loadImage(Context context,  ImageView imageView, String uriString) {
 
         if (TextUtils.isEmpty(uriString))
             return;
@@ -95,7 +78,7 @@ public class GlideImageload implements BaseImageload {
         Uri uri = Uri.parse(uriString);
 
         RequestOptions requestOptions = new RequestOptions()
-                .override(resizeX, resizeY)
+//                .override(resizeX, resizeY)
                 .encodeQuality(100)
                 .format(DecodeFormat.PREFER_RGB_565)
                 .priority(Priority.HIGH)
@@ -111,7 +94,7 @@ public class GlideImageload implements BaseImageload {
     }
 
     @Override
-    public void loadGifImage(Context context, int resizeX, int resizeY, ImageView imageView, String uriString) {
+    public void loadGifImage(Context context, ImageView imageView, String uriString) {
 
         if (TextUtils.isEmpty(uriString))
             return;
@@ -119,7 +102,7 @@ public class GlideImageload implements BaseImageload {
         Uri uri = Uri.parse(uriString);
 
         RequestOptions requestOptions = new RequestOptions()
-                .override(resizeX, resizeY)
+//                .override(resizeX, resizeY)
                 .encodeQuality(100)
                 .format(DecodeFormat.PREFER_RGB_565)
                 .priority(Priority.HIGH)

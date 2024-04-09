@@ -487,6 +487,13 @@ public class SelectorActivity extends AppCompatActivity implements
     }
 
     private void onAlbumSelected(AlbumModel albumModel) {
+
+        try {
+            TextView textView = findViewById(R.id.selector_title);
+            textView.setText(albumModel.getAlbumName(getApplicationContext()));
+        } catch (Exception e) {
+        }
+
         try {
             if (null == albumModel)
                 throw new Exception();

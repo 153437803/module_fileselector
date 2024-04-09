@@ -239,6 +239,17 @@ public final class SelectionCreator {
         return this;
     }
 
+    public SelectionCreator setThumbnailQuality(int quality) {
+        if (quality < 1) {
+            mSelectorModel.thumbnailQuality = 1;
+        } else if (quality > 100) {
+            mSelectorModel.thumbnailQuality = 100;
+        } else {
+            mSelectorModel.thumbnailQuality = quality;
+        }
+        return this;
+    }
+
     /**
      * Set listener for callback immediately when user select or unselect something.
      * <p>

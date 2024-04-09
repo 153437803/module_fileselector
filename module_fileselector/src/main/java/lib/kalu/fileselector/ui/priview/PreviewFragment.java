@@ -88,7 +88,7 @@ public class PreviewFragment extends Fragment {
         String mediaUriString = mediaModel.getMediaUriString();
         Uri uri = Uri.parse(mediaUriString);
 
-        Point size = PhotoMetadataUtils.getBitmapSize(uri, getActivity());
+//        Point size = PhotoMetadataUtils.getBitmapSize(uri, getActivity());
 
         boolean gif = mediaModel.isGif();
         String realPathFromUri = UriUtil.getRealPathFromUri(getContext(), uri);
@@ -97,9 +97,11 @@ public class PreviewFragment extends Fragment {
         Log.e("previewitemfragment", "onViewCreated => realPathFromUri = " + realPathFromUri);
 
         if (gif) {
-            SelectorModel.getInstance().baseImageload.loadGifImage(getContext(), size.x, size.y, image, mediaUriString);
+            SelectorModel.getInstance().baseImageload.loadGifImage(getContext(), image, mediaUriString);
+//            SelectorModel.getInstance().baseImageload.loadGifImage(getContext(), size.x, size.y, image, mediaUriString);
         } else {
-            SelectorModel.getInstance().baseImageload.loadImage(getContext(), size.x, size.y, image, mediaUriString);
+            SelectorModel.getInstance().baseImageload.loadImage(getContext(), image, mediaUriString);
+//            SelectorModel.getInstance().baseImageload.loadImage(getContext(), size.x, size.y, image, mediaUriString);
         }
     }
 

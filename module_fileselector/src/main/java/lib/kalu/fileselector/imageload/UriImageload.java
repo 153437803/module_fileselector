@@ -16,12 +16,12 @@ import androidx.annotation.Keep;
 public class UriImageload implements BaseImageload {
 
     @Override
-    public void loadThumbnail(Context context, int resize, Drawable placeholder, ImageView imageView, String uriString) {
+    public void loadThumbnail(Context context, int thumbnailQuality, Drawable placeholder, ImageView imageView, String uriString) {
 
         if (null == imageView)
             return;
 
-        if(TextUtils.isEmpty(uriString))
+        if (TextUtils.isEmpty(uriString))
             return;
 
         Uri uri = Uri.parse(uriString);
@@ -32,12 +32,12 @@ public class UriImageload implements BaseImageload {
     }
 
     @Override
-    public void loadGifThumbnail(Context context, int resize, Drawable placeholder, ImageView imageView, String uriString) {
+    public void loadGifThumbnail(Context context, int thumbnailQuality, Drawable placeholder, ImageView imageView, String uriString) {
 
         if (null == imageView)
             return;
 
-        if(TextUtils.isEmpty(uriString))
+        if (TextUtils.isEmpty(uriString))
             return;
 
         Uri uri = Uri.parse(uriString);
@@ -48,12 +48,12 @@ public class UriImageload implements BaseImageload {
     }
 
     @Override
-    public void loadImage(Context context, int resizeX, int resizeY, ImageView imageView, String uriString) {
+    public void loadImage(Context context, ImageView imageView, String uriString) {
 
         if (null == imageView)
             return;
 
-        if(TextUtils.isEmpty(uriString))
+        if (TextUtils.isEmpty(uriString))
             return;
 
         Uri uri = Uri.parse(uriString);
@@ -64,12 +64,12 @@ public class UriImageload implements BaseImageload {
     }
 
     @Override
-    public void loadGifImage(Context context, int resizeX, int resizeY, ImageView imageView, String uriString) {
+    public void loadGifImage(Context context, ImageView imageView, String uriString) {
 
         if (null == imageView)
             return;
 
-        if(TextUtils.isEmpty(uriString))
+        if (TextUtils.isEmpty(uriString))
             return;
 
         Uri uri = Uri.parse(uriString);

@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                         .setFileProvider(new CaptureModel(getApplicationContext(), false, "test"))
                         .setOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                         .setImageload(new GlideImageload())
+                        .setThumbnailQuality(10)
                         .startActivityForResult(1001);
             }
         });

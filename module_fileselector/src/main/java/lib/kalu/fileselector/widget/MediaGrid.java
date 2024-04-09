@@ -99,10 +99,10 @@ public class MediaGrid extends SquareFrameLayout implements View.OnClickListener
 
     private void setImage() {
         if (mMedia.isGif()) {
-            SelectorModel.getInstance().baseImageload.loadGifThumbnail(getContext(), mPreBindInfo.mResize,
+            SelectorModel.getInstance().baseImageload.loadGifThumbnail(getContext(), mPreBindInfo.mThumbnailQuality,
                     mPreBindInfo.mPlaceholder, mThumbnail, mMedia.getMediaUriString());
         } else {
-            SelectorModel.getInstance().baseImageload.loadThumbnail(getContext(), mPreBindInfo.mResize,
+            SelectorModel.getInstance().baseImageload.loadThumbnail(getContext(), mPreBindInfo.mThumbnailQuality,
                     mPreBindInfo.mPlaceholder, mThumbnail, mMedia.getMediaUriString());
         }
     }
@@ -146,14 +146,13 @@ public class MediaGrid extends SquareFrameLayout implements View.OnClickListener
     }
 
     public static class PreBindInfo {
-        int mResize;
+        int mThumbnailQuality;
         Drawable mPlaceholder;
         boolean mCheckViewCountable;
         RecyclerView.ViewHolder mViewHolder;
 
-        public PreBindInfo(int resize, Drawable placeholder, boolean checkViewCountable,
-                           RecyclerView.ViewHolder viewHolder) {
-            mResize = resize;
+        public PreBindInfo(int thumbnailQuality, Drawable placeholder, boolean checkViewCountable, RecyclerView.ViewHolder viewHolder) {
+            mThumbnailQuality = thumbnailQuality;
             mPlaceholder = placeholder;
             mCheckViewCountable = checkViewCountable;
             mViewHolder = viewHolder;
