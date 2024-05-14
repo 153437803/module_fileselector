@@ -1,10 +1,8 @@
 package com.kalu.fileselector;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,11 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
-import lib.kalu.fileselector.Selector;
-import lib.kalu.fileselector.imageload.GlideImageload;
-import lib.kalu.fileselector.imageload.UriImageload;
-import lib.kalu.fileselector.model.CaptureModel;
-import lib.kalu.fileselector.ui.selector.SelectorActivity;
+import lib.kalu.avselector.Selector;
+import lib.kalu.avselector.imageload.GlideImageload;
+import lib.kalu.avselector.model.CaptureModel;
+import lib.kalu.avselector.ui.selector.SelectorActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                         .setFileProvider(new CaptureModel(getApplicationContext(), false, "test"))
                         .setOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                         .setImageload(new GlideImageload())
-                        .setThumbnailQuality(10)
+                        .setThumbnailQuality(100)
                         .startActivityForResult(1001);
             }
         });

@@ -1,3 +1,2 @@
 include ':app'
-//include ':lib_fileselector'
-include ':module_fileselector'
+include ':lib_avselector'
